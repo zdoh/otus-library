@@ -1,9 +1,11 @@
 package ru.zdoher.library.dao;
 
+import org.springframework.stereotype.Service;
 import ru.zdoher.library.model.Author;
 
 import java.util.List;
 
+@Service
 public class AuthorDaoImpl implements AuthorDao {
     @Override
     public List<Author> getAll() {

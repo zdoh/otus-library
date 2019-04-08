@@ -13,9 +13,11 @@ public class BeanConfig {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/library");
+        ds.setUrl("jdbc:mysql://127.0.0.1:3306/library");
         ds.setUsername("libraryUser");
         ds.setPassword("libraryPass");
         return ds;
     }
+
+
 }

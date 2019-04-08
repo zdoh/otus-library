@@ -7,6 +7,8 @@ import java.util.List;
 public interface BookDao {
     List<Book> getAll();
 
+    List<Book> getAllByAuthorId(int bookId);
+
     Book getById(int id);
 
     void add(Book book);
@@ -14,4 +16,5 @@ public interface BookDao {
     void deleteById(int id);
 
     void insert(Book book);
+
 }

@@ -1,9 +1,11 @@
 package ru.zdoher.library.dao;
 
+import org.springframework.stereotype.Service;
 import ru.zdoher.library.model.Genre;
 
 import java.util.List;
 
+@Service
 public class GenreDaoImpl implements GenreDao {
     @Override
     public List<Genre> getAll() {
