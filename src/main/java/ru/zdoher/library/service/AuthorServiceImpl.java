@@ -2,6 +2,7 @@ package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.dao.AuthorDao;
+import ru.zdoher.library.dao.AuthorDaoImpl;
 import ru.zdoher.library.model.Author;
 
 import java.util.List;
@@ -10,8 +11,13 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
     private AuthorDao authorDao;
 
-    public AuthorServiceImpl(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public AuthorServiceImpl(AuthorDaoImpl authorDaoimpl) {
+        this.authorDao = authorDaoimpl;
+    }
+
+    @Override
+    public int count() {
+        return authorDao.count();
     }
 
     @Override

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `author` (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC),
     UNIQUE INDEX `name_UNIQUE` (`name` ASC)
-) ENGINE = InnoDB;
+) ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `genre` (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC),
     UNIQUE INDEX `name_UNIQUE` (`name` ASC)
-) ENGINE = InnoDB;
+) ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -60,9 +60,21 @@ CREATE TABLE IF NOT EXISTS `book` (
         REFERENCES `genre` (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION
-) ENGINE = InnoDB;
+) ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO author(name) values('Анджей Сапковский');
+INSERT INTO author(name) values('Говард Лавкрафт');
+
+INSERT INTO genre(name) values('фэнтези');
+INSERT INTO genre(name) values('ужасы');
+
+INSERT INTO book(name, author_id, genre_id) value ('Последнее желание', 1, 1);
+INSERT INTO book(name, author_id, genre_id) value ('Меч Предназначения', 1, 1);
+INSERT INTO book(name, author_id, genre_id) value ('Кровь эльфов', 1, 1);
+INSERT INTO book(name, author_id, genre_id) value ('Зов Ктулху', 2, 2);
+INSERT INTO book(name, author_id, genre_id) value ('Данвический ужас', 2, 2);
