@@ -11,8 +11,8 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
     private AuthorDao authorDao;
 
-    public AuthorServiceImpl(AuthorDaoImpl authorDaoimpl) {
-        this.authorDao = authorDaoimpl;
+    public AuthorServiceImpl(AuthorDao authorDao) {
+        this.authorDao = authorDao;
     }
 
     @Override
@@ -28,11 +28,6 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author getById(int id) {
         return authorDao.getById(id);
-    }
-
-    @Override
-    public void add(Author author) {
-        authorDao.add(author);
     }
 
     @Override

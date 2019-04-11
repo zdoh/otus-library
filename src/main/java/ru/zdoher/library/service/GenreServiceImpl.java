@@ -24,11 +24,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void add(Genre genre) {
-        genreDao.add(genre);
-    }
-
-    @Override
     public void deleteById(int id) {
         genreDao.deleteById(id);
     }

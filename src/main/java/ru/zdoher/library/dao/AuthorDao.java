@@ -11,8 +11,6 @@ public interface AuthorDao {
 
     Author getById(int id);
 
-    void add(Author author);
-
     void deleteById(int id);
 
     void insert(Author author);

@@ -26,4 +26,13 @@ public class Book extends BaseEntity {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "Book{" +
+                "authorName='" + authorName + '\'' +
+                ", genre='" + genre + '\'' +
+                '}';
+    }
 }

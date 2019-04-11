@@ -9,8 +9,6 @@ public interface GenreService {
 
     Genre getById(int id);
 
-    void add(Genre genre);
-
     void deleteById(int id);
 
     void insert(Genre genre);

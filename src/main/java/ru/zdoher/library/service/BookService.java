@@ -1,10 +1,10 @@
-package ru.zdoher.library.dao;
+package ru.zdoher.library.service;
 
 import ru.zdoher.library.model.Book;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookService {
     List<Book> getAll();
 
     List<Book> getAllByAuthorId(int bookId);
