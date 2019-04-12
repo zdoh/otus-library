@@ -14,26 +14,26 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAll() {
-        return null;
+        return bookDao.getAll();
     }
 
     @Override
-    public List<Book> getAllByAuthorId(int bookId) {
-        return null;
+    public List<Book> getAllByAuthorId(int authorId) {
+        return bookDao.getAllByAuthorId(authorId);
     }
 
     @Override
     public Book getById(int id) {
-        return null;
+        return bookDao.getById(id);
     }
 
     @Override
     public void deleteById(int id) {
-
+        bookDao.deleteById(id);
     }
 
     @Override
     public void insert(Book book) {
-
+        bookDao.insert(book);
     }
 }

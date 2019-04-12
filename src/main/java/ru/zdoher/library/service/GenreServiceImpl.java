@@ -13,6 +13,7 @@ public class GenreServiceImpl implements GenreService {
     public GenreServiceImpl(GenreDao genreDao) {
         this.genreDao = genreDao;
     }
+
     @Override
     public List<Genre> getAll() {
         return genreDao.getAll();

@@ -7,7 +7,10 @@ import ru.zdoher.library.model.Book;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookDaoImpl implements BookDao {
@@ -26,22 +29,32 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book getById(int id) {
-        return null;
+        Map<String, Object> result = Collections.singletonMap("id", id);
+        return njdbc.queryForObject("SELECT * FROM book WHERE id = :id", result, new BookMapping());
     }
 
     @Override
     public void deleteById(int id) {
-
+        Map<String, Object> result = Collections.singletonMap("id", id);
+        njdbc.update("DELETE FROM book WHERE id = :id", result);
     }
 
     @Override
     public void insert(Book book) {
-
+        Map<String, Object> result = new HashMap<>();
+        result.put("name", book.getName());
+        result.put("author", book.getAuthorName());
+        result.put("genre", book.getGenre());
+        njdbc.update("INSERT INTO book(name, author_id, genre_id) " +
+                "values(:name, " +
+                "(SELECT id FROM author WHERE name = :author), " +
+                "(SELECT id FROM genre WHERE name = :genre))", result);
     }
 
     @Override
-    public List<Book> getAllByAuthorId(int bookId) {
-        return null;
+    public List<Book> getAllByAuthorId(int authorId) {
+        Map<String, Object> result = Collections.singletonMap("author_id", authorId);
+        return njdbc.query("SELECT * FROM book WHERE author_id = :author_id", result, new BookMapping());
     }
 
     private static class BookMapping implements RowMapper<Book> {

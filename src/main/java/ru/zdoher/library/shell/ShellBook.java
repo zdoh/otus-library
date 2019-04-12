@@ -14,7 +14,7 @@ public class ShellBook {
     }
 
     @ShellMethod("asd")
-    public void allBook() {
+    public void bookAllShow() {
         bookDao.getAll().forEach(System.out::println);
     }
 }

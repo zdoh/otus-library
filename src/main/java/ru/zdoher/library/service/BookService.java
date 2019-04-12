@@ -7,7 +7,7 @@ import java.util.List;
 public interface BookService {
     List<Book> getAll();
 
-    List<Book> getAllByAuthorId(int bookId);
+    List<Book> getAllByAuthorId(int authorId);
 
     Book getById(int id);
 
