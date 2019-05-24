@@ -1,10 +1,12 @@
 package ru.zdoher.library.service;
 
+import org.springframework.stereotype.Service;
 import ru.zdoher.library.dao.BookDao;
 import ru.zdoher.library.model.Book;
 
 import java.util.List;
 
+@Service
 public class BookServiceImpl implements BookService {
     private BookDao bookDao;
 

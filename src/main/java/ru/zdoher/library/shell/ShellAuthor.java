@@ -18,7 +18,7 @@ public class ShellAuthor {
     }
 
     @ShellMethod("Command to show all")
-    public void authorAllShow() {
+    public void authorShowAll() {
         authorService.getAll().forEach(System.out::println);
     }
 }

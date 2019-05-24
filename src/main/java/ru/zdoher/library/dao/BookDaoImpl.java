@@ -30,7 +30,9 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book getById(int id) {
         Map<String, Object> result = Collections.singletonMap("id", id);
-        return njdbc.queryForObject("SELECT * FROM book WHERE id = :id", result, new BookMapping());
+        return njdbc.queryForObject("SELECT b.id, b.name, a.name as author, g.name as genre FROM book b " +
+                "LEFT JOIN author a ON a.id = b.author_id " +
+                "LEFT JOIN genre g ON g.id = b.genre_id WHERE b.id = :id", result, new BookMapping());
     }
 
     @Override

@@ -14,7 +14,7 @@ public class ShellGenre {
 
 
     @ShellMethod("show all genre")
-    public void genreAllShow() {
+    public void genreShowAll() {
         genreService.getAll().forEach(System.out::println);
     }
 }
