@@ -2,12 +2,8 @@ package ru.zdoher.library.view;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Book;
-import ru.zdoher.library.service.AuthorService;
-import ru.zdoher.library.service.BookService;
-import ru.zdoher.library.service.ConsoleService;
-import ru.zdoher.library.service.GenreService;
+import ru.zdoher.library.service.*;
 
-import java.util.List;
 
 @Service
 public class BookViewImpl implements BookView {
@@ -15,25 +11,27 @@ public class BookViewImpl implements BookView {
     private ConsoleService consoleService;
     private AuthorService authorService;
     private GenreService genreService;
+    private MessageService messageService;
 
-    public BookViewImpl(BookService bookService, ConsoleService consoleService, AuthorService authorService, GenreService genreService) {
+    public BookViewImpl(BookService bookService, ConsoleService consoleService, AuthorService authorService, GenreService genreService, MessageService messageService) {
         this.bookService = bookService;
         this.consoleService = consoleService;
         this.authorService = authorService;
         this.genreService = genreService;
+        this.messageService = messageService;
     }
 
     @Override
     public void addBook() {
         Book newBook = new Book();
-        consoleService.printString("Укажите название книги");
+        consoleService.printString(messageService.getMessage("book.newName"));
         newBook.setName(consoleService.getString());
 
         String tempString;
 
         while(true) {
             authorService.getAll().forEach(s -> consoleService.printString(s.toString()));
-            consoleService.printString("Укажите id автора. Если хотите прекратить добавление наберите END");
+            consoleService.printString(messageService.getMessage("book.newAuthorId"));
             tempString = consoleService.getString();
             if ("END".equals(tempString)) return;
 
@@ -44,13 +42,13 @@ public class BookViewImpl implements BookView {
                newBook.setAuthorName(authorService.getById(tempId).getName());
                break;
             } else {
-                consoleService.printString("Нет такого id автора");
+                consoleService.printString(messageService.getMessage("book.wrongAuthorId"));
             }
         }
 
         while (true) {
             genreService.getAll().forEach(s -> consoleService.printString(s.toString()));
-            consoleService.printString("Укажите id жанра. Если хотите прекратить добавление наберите END");
+            consoleService.printString(messageService.getMessage("book.newGenreId"));
             tempString = consoleService.getString();
             if ("END".equals(tempString)) return;
 
@@ -61,13 +59,13 @@ public class BookViewImpl implements BookView {
                 newBook.setGenre(genreService.getById(tempId).getName());
                 break;
             } else {
-                consoleService.printString("Нет такого id жанра");
+                consoleService.printString(messageService.getMessage("book.wrongGenreId"));
             }
 
         }
 
         bookService.insert(newBook);
-        consoleService.printString("Книга успешно добавлена");
+        consoleService.printString(messageService.getMessage("book.newBookSuccess"));
     }
 
     @Override
@@ -83,7 +81,7 @@ public class BookViewImpl implements BookView {
         Book tmpBook = bookService.getById(tempId);
 
         if (tmpBook == null) {
-            consoleService.printString("Книги с указанным id нет");
+            consoleService.printString(messageService.getMessage("book.wrongId"));
         } else {
             consoleService.printString(tmpBook.toString());
         }
@@ -95,9 +93,9 @@ public class BookViewImpl implements BookView {
         if (tempId == null) return;
 
         if (bookService.deleteById(tempId)) {
-            consoleService.printString("Книга удалена");
+            consoleService.printString(messageService.getMessage("book.deleteSucces"));
         } else {
-            consoleService.printString("Книги с указанным id нет");
+            consoleService.printString(messageService.getMessage("book.wrongId"));
         }
     }
 
@@ -105,7 +103,7 @@ public class BookViewImpl implements BookView {
         try {
             return Integer.parseInt(id);
         } catch (NumberFormatException e) {
-            consoleService.printString("Укажите число");
+            consoleService.printString(messageService.getMessage("book.enterNumber"));
         }
 
         return null;

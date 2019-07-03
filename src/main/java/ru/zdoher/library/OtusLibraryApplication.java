@@ -20,10 +20,4 @@ public class OtusLibraryApplication {
         SpringApplication.run(OtusLibraryApplication.class, args);
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
-        ms.setDefaultEncoding("UTF-8");
-        return ms;
-    }
 }
