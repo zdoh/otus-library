@@ -2,8 +2,7 @@ package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.dao.AuthorDao;
-import ru.zdoher.library.dao.AuthorDaoImpl;
-import ru.zdoher.library.model.Author;
+import ru.zdoher.library.domain.Author;
 
 import java.util.List;
 
@@ -26,17 +25,32 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author getById(int id) {
+    public Author getById(Integer id) {
         return authorDao.getById(id);
     }
 
     @Override
-    public void deleteById(int id) {
-        authorDao.getById(id);
+    public boolean deleteById(Integer id) {
+        if(isExist(id)) {
+            return false;
+        }
+
+        authorDao.deleteById(id);
+        return true;
     }
 
     @Override
     public void insert(Author author) {
         authorDao.insert(author);
+    }
+
+    @Override
+    public void update(Author author) {
+        authorDao.update(author);
+    }
+
+    @Override
+    public boolean isExist(Integer id) {
+        return getById(id) != null;
     }
 }

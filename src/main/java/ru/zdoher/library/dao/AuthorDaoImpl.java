@@ -1,14 +1,15 @@
 package ru.zdoher.library.dao;
 
-import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Service;
-import ru.zdoher.library.model.Author;
+import ru.zdoher.library.domain.Author;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +34,17 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public Author getById(int id) {
+    public Author getById(Integer id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return njdbc.queryForObject("SELECT * FROM author WHERE id = :id", params, new AuthorMapper());
+        try {
+            return njdbc.queryForObject("SELECT * FROM author WHERE id = :id", params, new AuthorMapper());
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         njdbc.update("DELETE FROM author where id = :id", params);
     }
@@ -48,6 +53,14 @@ public class AuthorDaoImpl implements AuthorDao {
     public void insert(Author author) {
         Map<String, Object> params = Collections.singletonMap("name", author.getName());
         njdbc.update("INSERT INTO author(name) values(:name)", params);
+    }
+
+    @Override
+    public void update(Author author) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", author.getName());
+        params.put("id", author.getId());
+        njdbc.update("UPDATE author SET name = :name WHERE id = :id", params);
     }
 
     private static class AuthorMapper implements RowMapper<Author> {

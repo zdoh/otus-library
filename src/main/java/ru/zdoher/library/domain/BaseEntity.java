@@ -1,19 +1,21 @@
-package ru.zdoher.library.model;
+package ru.zdoher.library.domain;
 
 public abstract class BaseEntity {
-    private int id;
+    private Integer id;
     private String name;
 
-    public BaseEntity(int id, String name) {
+    BaseEntity() {}
+
+    BaseEntity(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

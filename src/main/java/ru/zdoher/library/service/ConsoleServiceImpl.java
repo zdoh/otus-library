@@ -9,7 +9,7 @@ public class ConsoleServiceImpl implements ConsoleService {
 
     @Override
     public String getString()  {
-        return new Scanner(System.in).next();
+        return new Scanner(System.in).nextLine();
     }
 
     @Override

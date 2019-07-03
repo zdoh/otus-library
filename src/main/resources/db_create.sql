@@ -53,13 +53,13 @@ CREATE TABLE IF NOT EXISTS `book` (
     CONSTRAINT `book_author_id`
         FOREIGN KEY (`author_id`)
         REFERENCES `author` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT `book_genre_id`
         FOREIGN KEY (`genre_id`)
         REFERENCES `genre` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

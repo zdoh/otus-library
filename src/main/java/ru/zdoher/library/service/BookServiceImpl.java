@@ -2,7 +2,7 @@ package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.dao.BookDao;
-import ru.zdoher.library.model.Book;
+import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 
@@ -30,12 +30,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public boolean deleteById(int id) {
+        if(isExist(id)) {
+            return false;
+        }
+
         bookDao.deleteById(id);
+        return true;
     }
 
     @Override
     public void insert(Book book) {
         bookDao.insert(book);
+    }
+
+    @Override
+    public boolean isExist(int id) {
+        return getById(id) != null;
     }
 }

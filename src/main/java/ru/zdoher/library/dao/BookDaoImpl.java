@@ -1,9 +1,10 @@
 package ru.zdoher.library.dao;
 
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Service;
-import ru.zdoher.library.model.Book;
+import ru.zdoher.library.domain.Book;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,9 +31,14 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book getById(int id) {
         Map<String, Object> result = Collections.singletonMap("id", id);
-        return njdbc.queryForObject("SELECT b.id, b.name, a.name as author, g.name as genre FROM book b " +
+
+        try{
+            return njdbc.queryForObject("SELECT b.id, b.name, a.name as author, g.name as genre FROM book b " +
                 "LEFT JOIN author a ON a.id = b.author_id " +
                 "LEFT JOIN genre g ON g.id = b.genre_id WHERE b.id = :id", result, new BookMapping());
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

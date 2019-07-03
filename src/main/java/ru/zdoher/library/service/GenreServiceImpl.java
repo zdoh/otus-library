@@ -2,7 +2,7 @@ package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.dao.GenreDao;
-import ru.zdoher.library.model.Genre;
+import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
 
@@ -25,12 +25,28 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public boolean deleteById(int id) {
+
+        if(isExist(id)) {
+            return false;
+        }
+
         genreDao.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public void update(Genre genre) {
+        genreDao.update(genre);
     }
 
     @Override
     public void insert(Genre genre) {
         genreDao.insert(genre);
+    }
+
+    @Override
+    public boolean isExist(int id) {
+        return getById(id) != null;
     }
 }

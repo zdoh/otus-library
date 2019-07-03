@@ -1,6 +1,6 @@
 package ru.zdoher.library.dao;
 
-import ru.zdoher.library.model.Author;
+import ru.zdoher.library.domain.Author;
 
 import java.util.List;
 
@@ -9,9 +9,11 @@ public interface AuthorDao {
 
     List<Author> getAll();
 
-    Author getById(int id);
+    Author getById(Integer id);
 
-    void deleteById(int id);
+    void deleteById(Integer id);
 
     void insert(Author author);
+
+    void update(Author author);
 }

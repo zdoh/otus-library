@@ -2,19 +2,35 @@ package ru.zdoher.library.shell;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.zdoher.library.service.GenreService;
+import org.springframework.shell.standard.ShellOption;
+import ru.zdoher.library.view.GenreView;
 
 @ShellComponent
 public class ShellGenre {
-    private GenreService genreService;
 
-    public ShellGenre(GenreService genreService) {
-        this.genreService = genreService;
+    private GenreView genreView;
+
+    public ShellGenre(GenreView genreView) {
+        this.genreView = genreView;
     }
-
 
     @ShellMethod("show all genre")
     public void genreShowAll() {
-        genreService.getAll().forEach(System.out::println);
+        genreView.showAll();
+    }
+
+    @ShellMethod("add genre")
+    public void genreAdd() {
+        genreView.addGenre();
+    }
+
+    @ShellMethod("Delete genre by id. Use: genre-delete id")
+    public void genreDelete(@ShellOption String id) {
+        genreView.deleteById(id);
+    }
+
+    @ShellMethod("Rename genre by id. Use: genre-rename id")
+    public void genreRename(@ShellOption String id) {
+        genreView.update(id);
     }
 }

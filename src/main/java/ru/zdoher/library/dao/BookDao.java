@@ -1,6 +1,6 @@
 package ru.zdoher.library.dao;
 
-import ru.zdoher.library.model.Book;
+import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 

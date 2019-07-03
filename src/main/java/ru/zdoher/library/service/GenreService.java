@@ -1,6 +1,6 @@
 package ru.zdoher.library.service;
 
-import ru.zdoher.library.model.Genre;
+import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
 
@@ -9,7 +9,11 @@ public interface GenreService {
 
     Genre getById(int id);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 
     void insert(Genre genre);
+
+    void update(Genre genre);
+
+    boolean isExist(int id);
 }

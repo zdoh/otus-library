@@ -1,10 +1,12 @@
-package ru.zdoher.library.model;
+package ru.zdoher.library.domain;
 
 public class Book extends BaseEntity {
     private String authorName;
     private String genre;
 
-    public Book(int id, String name, String authorName, String genre) {
+    public Book() {}
+
+    public Book(Integer id, String name, String authorName, String genre) {
         super(id, name);
 
         this.authorName = authorName;

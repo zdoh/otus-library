@@ -1,8 +1,8 @@
-package ru.zdoher.library.model;
+package ru.zdoher.library.domain;
 
-public class Author extends BaseEntity {
+public class Genre extends BaseEntity {
 
-    public Author(int id, String name) {
+    public Genre(Integer id, String name) {
         super(id, name);
     }
 

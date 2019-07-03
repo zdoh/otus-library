@@ -4,31 +4,33 @@ package ru.zdoher.library.shell;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.zdoher.library.dao.BookDao;
-import ru.zdoher.library.model.Book;
-import ru.zdoher.library.service.BookService;
+import ru.zdoher.library.view.BookView;
 
 @ShellComponent
 public class ShellBook {
-    private BookService bookService;
+    private BookView bookView;
 
-    public ShellBook(BookService bookService) {
-        this.bookService = bookService;
+    public ShellBook(BookView bookView) {
+        this.bookView = bookView;
     }
 
     @ShellMethod("Show all book")
     public void bookShowAll() {
-        bookService.getAll().forEach(System.out::println);
+        bookView.showAll();
     }
 
-    @ShellMethod("Show book by id")
+    @ShellMethod("Show book by id. Use: book-show id")
     public void bookShow(@ShellOption String id) {
-        try {
-            System.out.println(bookService.getById(Integer.parseInt(id)));
-        } catch
-         (NumberFormatException e) {
-            System.out.println("Укажите номер книги для отображения");
-        }
+        bookView.getById(id);
+    }
 
+    @ShellMethod("Delete book by id. Use: book-delete id")
+    public void bookDelete(@ShellOption String id) {
+        bookView.delete(id);
+    }
+
+    @ShellMethod("Add book.")
+    public void bookAdd() {
+        bookView.addBook();
     }
 }

@@ -1,6 +1,6 @@
 package ru.zdoher.library.service;
 
-import ru.zdoher.library.model.Book;
+import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 
@@ -11,8 +11,9 @@ public interface BookService {
 
     Book getById(int id);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 
     void insert(Book book);
 
+    boolean isExist(int id);
 }
