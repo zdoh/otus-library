@@ -1,5 +1,6 @@
 package ru.zdoher.library.dao;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -52,13 +53,18 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void insert(Book book) {
+    public boolean insert(Book book) {
         Map<String, Object> result = new HashMap<>();
         result.put("name", book.getName());
         result.put("author_id", book.getAuthor().getId());
         result.put("genre_id", book.getGenre().getId());
-        njdbc.update("INSERT INTO book(name, author_id, genre_id) " +
-                "values(:name, :author_id, :genre_id)", result);
+        try {
+            njdbc.update("INSERT INTO book(name, author_id, genre_id) " +
+                    "values(:name, :author_id, :genre_id)", result);
+            return true;
+        } catch (DataAccessException e) {
+            return false;
+        }
     }
 
     private static class BookMapping implements RowMapper<Book> {

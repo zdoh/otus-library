@@ -11,6 +11,6 @@ public interface BookDao {
 
     void deleteById(Long id);
 
-    void insert(Book book);
+    boolean insert(Book book);
 
 }

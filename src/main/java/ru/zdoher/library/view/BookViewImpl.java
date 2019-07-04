@@ -64,8 +64,11 @@ public class BookViewImpl implements BookView {
 
         }
 
-        bookService.insert(newBook);
-        consoleService.printString(messageService.getMessage("book.newBookSuccess"));
+        if (bookService.insert(newBook)) {
+            consoleService.printString(messageService.getMessage("book.newBookSuccess"));
+        } else {
+            consoleService.printString(messageService.getMessage("book.newBookError"));
+        }
     }
 
     @Override
