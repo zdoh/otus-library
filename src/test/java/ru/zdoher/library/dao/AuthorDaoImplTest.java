@@ -12,15 +12,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DisplayName("Репозиторий на основе Jdbc для работы со студентами")
+@DisplayName("Класс authorDao")
 @JdbcTest
 @Import({AuthorDaoImpl.class})
 class AuthorDaoImplTest {
 
     @Autowired
-    private AuthorDaoImpl authorDao;
+    private AuthorDao authorDao;
 
-    @DisplayName(" проверка всего корретно")
+    @DisplayName(" проверка получения всего корретно")
     @Test
     void authorDaoAll() {
         List<Author> authorList = authorDao.getAll();
@@ -30,38 +30,47 @@ class AuthorDaoImplTest {
                 .allMatch(s -> s.getId() != null && s.getId() > 0);
     }
 
-    @DisplayName(" проверка id 1 корректа")
+    @DisplayName(" проверка получения id 1 корректа")
     @Test
     void authorGetById() {
         Author author = authorDao.getById(1);
 
-        assertThat(author).isNotNull()
+        assertThat(author)
                 .matches( s -> s.getId() == 1)
                 .matches( s -> s.getName().equals("Анджей Сапковский"));
     }
 
-    @DisplayName(" проверка вставки нового автора")
+    @DisplayName(" проверка вставки нового автора корректна")
     @Test
     void authorAdd() {
-        authorDao.insert(new Author(3, "author3"));
+        authorDao.insert(new Author(null, "author3"));
 
         Author author = authorDao.getById(3);
 
-        assertThat(author).isNotNull()
+        assertThat(author)
                 .matches( s -> s.getId() == 3)
                 .matches( s -> s.getName().equals("author3"));
     }
 
-    @DisplayName(" проверка удаления автора")
+    @DisplayName(" проверка удаления автора корректна")
     @Test
     void authorDelete() {
-        authorDao.deleteById(3);
+        authorDao.deleteById(2);
 
         List<Author> authorList = authorDao.getAll();
 
-        assertThat(authorList.size()).isEqualTo(2);
-
+        assertThat(authorList.size()).isEqualTo(1);
 
     }
 
+    @DisplayName(" проверка редактирование автора корректна")
+    @Test
+    void authorRename() {
+        authorDao.update(new Author(1, "author1"));
+
+        Author author = authorDao.getById(1);
+
+        assertThat(author)
+                .matches( s -> s.getName().equals("author1"));
+    }
 }

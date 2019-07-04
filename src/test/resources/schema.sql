@@ -13,7 +13,7 @@ create table genre(
 create table book(
     id int auto_increment,
     name varchar(255),
-    author_id int references author (id),
-    genre_id int references genre (id),
+    author_id int references author (id) ON DELETE CASCADE,
+    genre_id int references genre (id) ON DELETE CASCADE,
     primary key (id)
 );
