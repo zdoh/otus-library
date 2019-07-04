@@ -1,9 +1,5 @@
 package ru.zdoher.library.view;
 
-import ru.zdoher.library.domain.Author;
-
-import java.util.List;
-
 public interface AuthorView {
 
     void addAuthor();

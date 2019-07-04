@@ -1,13 +1,35 @@
 package ru.zdoher.library.domain;
 
-public class Author extends BaseEntity {
+public class Author {
+    private Long id;
+    private String name;
 
-    public Author(Integer id, String name) {
-        super(id, name);
+    public Author(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public String   toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

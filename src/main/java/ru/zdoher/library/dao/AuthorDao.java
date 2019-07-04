@@ -9,9 +9,9 @@ public interface AuthorDao {
 
     List<Author> getAll();
 
-    Author getById(Integer id);
+    Author getById(Long id);
 
-    void deleteById(Integer id);
+    void deleteById(Long id);
 
     void insert(Author author);
 

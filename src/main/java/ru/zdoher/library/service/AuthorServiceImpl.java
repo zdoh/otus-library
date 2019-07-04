@@ -25,12 +25,12 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author getById(Integer id) {
+    public Author getById(Long id) {
         return authorDao.getById(id);
     }
 
     @Override
-    public boolean deleteById(Integer id) {
+    public boolean deleteById(Long id) {
         if(isExist(id)) {
             return false;
         }
@@ -50,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public boolean isExist(Integer id) {
+    public boolean isExist(Long id) {
         return getById(id) != null;
     }
 }

@@ -11,10 +11,10 @@ class GenreTest {
     @Test
     @DisplayName(" корректно создается")
     void genreCreateAndGet() {
-        Genre genre = new Genre(1, "genre");
+        Genre genre = new Genre(1L, "genre");
 
         assertAll(
-                () -> assertEquals(Integer.valueOf(1), genre.getId()),
+                () -> assertEquals(Long.valueOf(1), genre.getId()),
                 () -> assertEquals("genre", genre.getName())
         );
 

@@ -20,12 +20,12 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre getById(int id) {
+    public Genre getById(Long id) {
         return genreDao.getById(id);
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Long id) {
 
         if(isExist(id)) {
             return false;
@@ -46,7 +46,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public boolean isExist(int id) {
+    public boolean isExist(Long id) {
         return getById(id) != null;
     }
 }

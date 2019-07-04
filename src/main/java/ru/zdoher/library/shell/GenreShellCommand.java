@@ -6,11 +6,11 @@ import org.springframework.shell.standard.ShellOption;
 import ru.zdoher.library.view.GenreView;
 
 @ShellComponent
-public class ShellGenre {
+public class GenreShellCommand {
 
     private GenreView genreView;
 
-    public ShellGenre(GenreView genreView) {
+    public GenreShellCommand(GenreView genreView) {
         this.genreView = genreView;
     }
 

@@ -35,11 +35,11 @@ public class BookViewImpl implements BookView {
             tempString = consoleService.getString();
             if ("END".equals(tempString)) return;
 
-            Integer tempId = correctId(tempString);
-            if (tempId == null) continue;
+            Long longId = correctId(tempString);
+            if (longId == null) continue;
 
-            if (authorService.isExist(tempId)) {
-               newBook.setAuthorName(authorService.getById(tempId).getName());
+            if (authorService.isExist(longId)) {
+               newBook.setAuthor(authorService.getById(longId));
                break;
             } else {
                 consoleService.printString(messageService.getMessage("book.wrongAuthorId"));
@@ -52,11 +52,11 @@ public class BookViewImpl implements BookView {
             tempString = consoleService.getString();
             if ("END".equals(tempString)) return;
 
-            Integer tempId = correctId(tempString);
-            if (tempId == null) continue;
+            Long longId = correctId(tempString);
+            if (longId == null) continue;
 
-            if (genreService.isExist(tempId)) {
-                newBook.setGenre(genreService.getById(tempId).getName());
+            if (genreService.isExist(longId)) {
+                newBook.setGenre(genreService.getById(longId));
                 break;
             } else {
                 consoleService.printString(messageService.getMessage("book.wrongGenreId"));
@@ -75,10 +75,10 @@ public class BookViewImpl implements BookView {
 
     @Override
     public void getById(String id) {
-        Integer tempId = correctId(id);
-        if (tempId == null) return;
+        Long longId = correctId(id);
+        if (longId == null) return;
 
-        Book tmpBook = bookService.getById(tempId);
+        Book tmpBook = bookService.getById(longId);
 
         if (tmpBook == null) {
             consoleService.printString(messageService.getMessage("book.wrongId"));
@@ -89,19 +89,19 @@ public class BookViewImpl implements BookView {
 
     @Override
     public void delete(String id) {
-        Integer tempId = correctId(id);
-        if (tempId == null) return;
+        Long longId = correctId(id);
+        if (longId == null) return;
 
-        if (bookService.deleteById(tempId)) {
+        if (bookService.deleteById(longId)) {
             consoleService.printString(messageService.getMessage("book.deleteSucces"));
         } else {
             consoleService.printString(messageService.getMessage("book.wrongId"));
         }
     }
 
-    private Integer correctId(String id) {
+    private Long correctId(String id) {
         try {
-            return Integer.parseInt(id);
+            return Long.parseLong(id);
         } catch (NumberFormatException e) {
             consoleService.printString(messageService.getMessage("book.enterNumber"));
         }

@@ -10,13 +10,13 @@ public interface AuthorService {
 
     List<Author> getAll();
 
-    Author getById(Integer id);
+    Author getById(Long id);
 
-    boolean deleteById(Integer id);
+    boolean deleteById(Long id);
 
     void insert(Author author);
 
     void update(Author author);
 
-    boolean isExist(Integer id);
+    boolean isExist(Long id);
 }

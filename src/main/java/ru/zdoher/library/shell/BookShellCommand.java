@@ -7,10 +7,10 @@ import org.springframework.shell.standard.ShellOption;
 import ru.zdoher.library.view.BookView;
 
 @ShellComponent
-public class ShellBook {
+public class BookShellCommand {
     private BookView bookView;
 
-    public ShellBook(BookView bookView) {
+    public BookShellCommand(BookView bookView) {
         this.bookView = bookView;
     }
 

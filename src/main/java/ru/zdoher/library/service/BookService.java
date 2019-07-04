@@ -7,13 +7,11 @@ import java.util.List;
 public interface BookService {
     List<Book> getAll();
 
-    List<Book> getAllByAuthorId(int authorId);
+    Book getById(Long id);
 
-    Book getById(int id);
-
-    boolean deleteById(int id);
+    boolean deleteById(Long id);
 
     void insert(Book book);
 
-    boolean isExist(int id);
+    boolean isExist(Long id);
 }

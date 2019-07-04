@@ -11,10 +11,10 @@ class AuthorTest {
     @Test
     @DisplayName(" корректно создается")
     void authorCreateAndGet() {
-        Author author = new Author(1, "author");
+        Author author = new Author(1L, "author");
 
         assertAll(
-                () -> assertEquals(Integer.valueOf(1), author.getId()),
+                () -> assertEquals(Long.valueOf(1), author.getId()),
                 () -> assertEquals("author", author.getName())
         );
     }

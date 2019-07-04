@@ -41,10 +41,10 @@ public class GenreViewImpl implements GenreView {
             if ("no".equals(decision)) return;
         } while (!"yes".equals(decision));
 
-        Integer integerId = correctId(id);
-        if (integerId == null) return;
+        Long longId = correctId(id);
+        if (longId == null) return;
 
-        if (genreService.deleteById(integerId)) {
+        if (genreService.deleteById(longId)) {
             consoleService.printString(messageService.getMessage("genre.delSuccess"));
         } else {
             consoleService.printString(messageService.getMessage("genre.wrongId"));
@@ -54,13 +54,13 @@ public class GenreViewImpl implements GenreView {
 
     @Override
     public void update(String id) {
-        Integer integerId = correctId(id);
-        if (integerId == null) return;
+        Long longId = correctId(id);
+        if (longId == null) return;
 
-        if (genreService.isExist(integerId)) {
+        if (genreService.isExist(longId)) {
             consoleService.printString(messageService.getMessage("genre.newName"));
             String newName = consoleService.getString();
-            genreService.update(new Genre(integerId, newName));
+            genreService.update(new Genre(longId, newName));
             consoleService.printString(messageService.getMessage("genre.changeSuccess"));
         } else {
             consoleService.printString(messageService.getMessage("genre.wrongId"));
@@ -68,9 +68,9 @@ public class GenreViewImpl implements GenreView {
 
     }
 
-    private Integer correctId(String id) {
+    private Long correctId(String id) {
         try {
-            return Integer.parseInt(id);
+            return Long.parseLong(id);
         } catch (NumberFormatException e) {
             consoleService.printString(messageService.getMessage("genre.wrongIdName"));
         }

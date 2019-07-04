@@ -44,10 +44,10 @@ public class AuthorViewImpl implements AuthorView {
             if ("no".equals(decision)) return;
         } while (!"yes".equals(decision));
 
-        Integer integerId = correctId(id);
-        if (integerId == null) return;
+        Long longId = correctId(id);
+        if (longId == null) return;
 
-        if (authorService.deleteById(integerId)) {
+        if (authorService.deleteById(longId)) {
             consoleService.printString(messageService.getMessage("author.newSuccess"));
         } else {
             consoleService.printString(messageService.getMessage("author.wrongId"));
@@ -57,13 +57,13 @@ public class AuthorViewImpl implements AuthorView {
 
     @Override
     public void update(String id) {
-        Integer integerId = correctId(id);
-        if (integerId == null) return;
+        Long longId = correctId(id);
+        if (longId == null) return;
 
-        if (authorService.isExist(integerId)) {
+        if (authorService.isExist(longId)) {
             consoleService.printString(messageService.getMessage("author.newName"));
             String newName = consoleService.getString();
-            authorService.update(new Author(integerId, newName));
+            authorService.update(new Author(longId, newName));
             consoleService.printString(messageService.getMessage("author.newNameSuccess"));
         } else {
             consoleService.printString(messageService.getMessage("author.wrongId"));
@@ -71,9 +71,9 @@ public class AuthorViewImpl implements AuthorView {
 
     }
 
-    private Integer correctId(String id) {
+    private Long correctId(String id) {
         try {
-            return Integer.parseInt(id);
+            return Long.parseLong(id);
         } catch (NumberFormatException e) {
             consoleService.printString(messageService.getMessage("author.wrongIdName"));
         }

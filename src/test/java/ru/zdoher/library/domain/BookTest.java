@@ -11,13 +11,13 @@ class BookTest {
     @Test
     @DisplayName(" корректно создается")
     void bookCreateAndGet() {
-        Book book = new Book(1, "bookName", "authorName", "genreName");
+        Book book = new Book(1L, "bookName", new Author(1L, "authorName"), new Genre(1L,"genreName"));
 
         assertAll(
-                () -> assertEquals(Integer.valueOf(1), book.getId()),
+                () -> assertEquals(Long.valueOf(1), book.getId()),
                 () -> assertEquals("bookName", book.getName()),
-                () -> assertEquals("authorName", book.getAuthorName()),
-                () -> assertEquals("genreName", book.getGenre())
+                () -> assertEquals("authorName", book.getAuthor().getName()),
+                () -> assertEquals("genreName", book.getGenre().getName())
         );
 
 

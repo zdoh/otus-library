@@ -19,18 +19,14 @@ public class BookServiceImpl implements BookService {
         return bookDao.getAll();
     }
 
-    @Override
-    public List<Book> getAllByAuthorId(int authorId) {
-        return bookDao.getAllByAuthorId(authorId);
-    }
 
     @Override
-    public Book getById(int id) {
+    public Book getById(Long id) {
         return bookDao.getById(id);
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Long id) {
         if(isExist(id)) {
             return false;
         }
@@ -45,7 +41,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean isExist(int id) {
+    public boolean isExist(Long id) {
         return getById(id) != null;
     }
 }

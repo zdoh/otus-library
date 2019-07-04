@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AuthorDaoImplTest {
 
     @Autowired
-    private AuthorDao authorDao;
+    private AuthorDaoImpl authorDao;
 
     @DisplayName(" проверка получения всего корретно")
     @Test
@@ -33,7 +33,7 @@ class AuthorDaoImplTest {
     @DisplayName(" проверка получения id 1 корректа")
     @Test
     void authorGetById() {
-        Author author = authorDao.getById(1);
+        Author author = authorDao.getById(1L);
 
         assertThat(author)
                 .matches( s -> s.getId() == 1)
@@ -45,30 +45,34 @@ class AuthorDaoImplTest {
     void authorAdd() {
         authorDao.insert(new Author(null, "author3"));
 
-        Author author = authorDao.getById(3);
+        List<Author> authorList = authorDao.getAll();
+
+        authorList.forEach(s -> System.out.println(s.getId() + " " + s.getName()));
+
+        Author author = authorDao.getById(3L);
 
         assertThat(author)
-                .matches( s -> s.getId() == 3)
+                .matches( s -> s.getId() == 3L)
                 .matches( s -> s.getName().equals("author3"));
     }
 
     @DisplayName(" проверка удаления автора корректна")
     @Test
     void authorDelete() {
-        authorDao.deleteById(2);
+        authorDao.deleteById(2L);
 
         List<Author> authorList = authorDao.getAll();
 
-        assertThat(authorList.size()).isEqualTo(1);
+        assertThat(authorList.size()).isEqualTo(1L);
 
     }
 
     @DisplayName(" проверка редактирование автора корректна")
     @Test
     void authorRename() {
-        authorDao.update(new Author(1, "author1"));
+        authorDao.update(new Author(1L, "author1"));
 
-        Author author = authorDao.getById(1);
+        Author author = authorDao.getById(1L);
 
         assertThat(author)
                 .matches( s -> s.getName().equals("author1"));

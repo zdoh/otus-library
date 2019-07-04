@@ -33,7 +33,7 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public Genre getById(int id) {
+    public Genre getById(Long id) {
         Map<String, Object> result = Collections.singletonMap("id", id);
         try {
             return njdbc.queryForObject("SELECT * FROM genre WHERE id = :id", result, new GenreMapper());
@@ -43,7 +43,7 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         Map<String, Object> result = Collections.singletonMap("id", id);
         njdbc.update("DELETE FROM genre WHERE id = :id", result);
     }
@@ -65,7 +65,7 @@ public class GenreDaoImpl implements GenreDao {
     private static class GenreMapper implements RowMapper<Genre> {
         @Override
         public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Genre(rs.getInt("id"), rs.getString("name"));
+            return new Genre(rs.getLong("id"), rs.getString("name"));
         }
     }
 }

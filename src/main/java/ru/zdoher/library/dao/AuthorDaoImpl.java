@@ -34,7 +34,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public Author getById(Integer id) {
+    public Author getById(Long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         try {
             return njdbc.queryForObject("SELECT * FROM author WHERE id = :id", params, new AuthorMapper());
@@ -44,7 +44,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
         njdbc.update("DELETE FROM author where id = :id", params);
     }
@@ -66,7 +66,7 @@ public class AuthorDaoImpl implements AuthorDao {
     private static class AuthorMapper implements RowMapper<Author> {
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Author(rs.getInt("id"), rs.getString("name"));
+            return new Author(rs.getLong("id"), rs.getString("name"));
         }
     }
 }

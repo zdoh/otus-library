@@ -6,10 +6,10 @@ import org.springframework.shell.standard.ShellOption;
 import ru.zdoher.library.view.AuthorView;
 
 @ShellComponent
-public class ShellAuthor {
+public class AuthorShellCommand {
     private AuthorView authorView;
 
-    public ShellAuthor(AuthorView authorView) {
+    public AuthorShellCommand(AuthorView authorView) {
         this.authorView = authorView;
     }
 
