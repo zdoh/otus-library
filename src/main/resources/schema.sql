@@ -6,9 +6,9 @@
 -- -----------------------------------------------------
 -- Table `author`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `book` ;
 DROP TABLE IF EXISTS `author` ;
 DROP TABLE IF EXISTS `genre` ;
-DROP TABLE IF EXISTS `book` ;
 
 
 CREATE TABLE author (
@@ -25,11 +25,11 @@ CREATE TABLE author (
 -- -----------------------------------------------------
 
 CREATE TABLE genre (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(256) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE INDEX `id_UNIQUE` (id ASC),
-    UNIQUE INDEX `name_UNIQUE` (`name` ASC)
+   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+   name VARCHAR(256) NOT NULL,
+   PRIMARY KEY (id),
+   UNIQUE INDEX `id_UNIQUE` (id ASC),
+   UNIQUE INDEX `name_UNIQUE` (`name` ASC)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -38,23 +38,23 @@ CREATE TABLE genre (
 -- -----------------------------------------------------
 
 CREATE TABLE book (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(256) NOT NULL,
-    `author_id` BIGINT UNSIGNED NOT NULL,
-    `genre_id` BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-    UNIQUE INDEX `name_UNIQUE` (`name` ASC),
-    INDEX `book_author_id_idx` (`author_id` ASC),
-    INDEX `book_genre_id_idx` (`genre_id` ASC),
-    CONSTRAINT `book_author_id`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `author` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    CONSTRAINT `book_genre_id`
-    FOREIGN KEY (`genre_id`)
-    REFERENCES `genre` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256) NOT NULL,
+  `author_id` BIGINT UNSIGNED NOT NULL,
+  `genre_id` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  INDEX `book_author_id_idx` (`author_id` ASC),
+  INDEX `book_genre_id_idx` (`genre_id` ASC),
+  CONSTRAINT `book_author_id`
+      FOREIGN KEY (`author_id`)
+          REFERENCES `author` (`id`)
+          ON DELETE CASCADE
+          ON UPDATE CASCADE,
+  CONSTRAINT `book_genre_id`
+      FOREIGN KEY (`genre_id`)
+          REFERENCES `genre` (`id`)
+          ON DELETE CASCADE
+          ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
