@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdb;mode=mysql
     data: test_data.sql
-    schema: test_schema.sql
+

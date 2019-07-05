@@ -27,7 +27,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public boolean deleteById(Long id) {
 
-        if(isExist(id)) {
+        if(!isExist(id)) {
             return false;
         }
 

@@ -31,7 +31,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public boolean deleteById(Long id) {
-        if(isExist(id)) {
+        if(!isExist(id)) {
             return false;
         }
 
