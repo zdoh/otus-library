@@ -1,6 +1,6 @@
-package ru.zdoher.library.view;
+package ru.zdoher.library.controller;
 
-public interface GenreView {
+public interface GenreController {
 
     void addGenre();
 

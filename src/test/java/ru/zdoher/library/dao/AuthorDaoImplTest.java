@@ -16,6 +16,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 @Import({AuthorDaoImpl.class})
 class AuthorDaoImplTest {
+    private final Long FIRST_ID = 1L;
+    private final String FIRST_NAME = "Анджей Сапковский";
+    private final Long NEW_ID = 3L;
+    private final String NEW_NAME = "author3";
+    private final int NEW_SIZE = 2;
+    private final String NEW_FIRST_NAME = "author1";
+
 
     @Autowired
     private AuthorDaoImpl authorDao;
@@ -33,48 +40,48 @@ class AuthorDaoImplTest {
     @DisplayName(" проверка получения id 1 корректа")
     @Test
     void authorGetById() {
-        Author author = authorDao.getById(1L);
+        Author author = authorDao.getById(FIRST_ID);
 
         assertThat(author)
-                .matches( s -> s.getId() == 1)
-                .matches( s -> s.getName().equals("Анджей Сапковский"));
+                .matches( s -> s.getId().equals(FIRST_ID))
+                .matches( s -> s.getName().equals(FIRST_NAME));
     }
 
     @DisplayName(" проверка вставки нового автора корректна")
     @Test
     void authorAdd() {
-        authorDao.insert(new Author(null, "author3"));
+        authorDao.insert(new Author(null, NEW_NAME));
 
         List<Author> authorList = authorDao.getAll();
 
         authorList.forEach(s -> System.out.println(s.getId() + " " + s.getName()));
 
-        Author author = authorDao.getById(3L);
+        Author author = authorDao.getById(NEW_ID);
 
         assertThat(author)
-                .matches( s -> s.getId() == 3L)
-                .matches( s -> s.getName().equals("author3"));
+                .matches( s -> s.getId().equals(NEW_ID))
+                .matches( s -> s.getName().equals(NEW_NAME));
     }
 
     @DisplayName(" проверка удаления автора корректна")
     @Test
     void authorDelete() {
-        authorDao.deleteById(2L);
+        authorDao.deleteById(NEW_ID);
 
         List<Author> authorList = authorDao.getAll();
 
-        assertThat(authorList.size()).isEqualTo(1L);
+        assertThat(authorList.size()).isEqualTo(NEW_SIZE);
 
     }
 
     @DisplayName(" проверка редактирование автора корректна")
     @Test
     void authorRename() {
-        authorDao.update(new Author(1L, "author1"));
+        authorDao.update(new Author(FIRST_ID, NEW_FIRST_NAME));
 
-        Author author = authorDao.getById(1L);
+        Author author = authorDao.getById(FIRST_ID);
 
         assertThat(author)
-                .matches( s -> s.getName().equals("author1"));
+                .matches( s -> s.getName().equals(NEW_FIRST_NAME));
     }
 }

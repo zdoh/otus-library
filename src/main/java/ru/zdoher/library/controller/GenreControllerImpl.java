@@ -1,4 +1,4 @@
-package ru.zdoher.library.view;
+package ru.zdoher.library.controller;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Genre;
@@ -7,12 +7,12 @@ import ru.zdoher.library.service.GenreService;
 import ru.zdoher.library.service.MessageService;
 
 @Service
-public class GenreViewImpl implements GenreView {
+public class GenreControllerImpl implements GenreController {
     private GenreService genreService;
     private ConsoleService consoleService;
     private MessageService messageService;
 
-    public GenreViewImpl(GenreService genreService, ConsoleService consoleService, MessageService messageService) {
+    public GenreControllerImpl(GenreService genreService, ConsoleService consoleService, MessageService messageService) {
         this.genreService = genreService;
         this.consoleService = consoleService;
         this.messageService = messageService;

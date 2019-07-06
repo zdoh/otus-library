@@ -3,38 +3,38 @@ package ru.zdoher.library.shell;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.zdoher.library.view.AuthorView;
+import ru.zdoher.library.controller.AuthorController;
 
 @ShellComponent
 public class AuthorShellCommand {
-    private AuthorView authorView;
+    private AuthorController authorController;
 
-    public AuthorShellCommand(AuthorView authorView) {
-        this.authorView = authorView;
+    public AuthorShellCommand(AuthorController authorController) {
+        this.authorController = authorController;
     }
 
     /*@ShellMethod("Command to count")
     public void count() {
-        System.out.println(authorView.count());
+        System.out.println(authorController.count());
     }*/
 
     @ShellMethod("Command to show all")
     public void authorShowAll() {
-        authorView.showAll();
+        authorController.showAll();
     }
 
     @ShellMethod("Add author")
     public void authorAdd() {
-        authorView.addAuthor();
+        authorController.addAuthor();
     }
 
     @ShellMethod("Delete author by id. Use: author-delete id")
     public void authorDelete(@ShellOption String id) {
-        authorView.deleteById(id);
+        authorController.deleteById(id);
     }
 
     @ShellMethod("Rename author by id. Use: author-rename id")
     public void authorRename(@ShellOption String id) {
-        authorView.update(id);
+        authorController.update(id);
     }
 }

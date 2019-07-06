@@ -1,4 +1,4 @@
-package ru.zdoher.library.view;
+package ru.zdoher.library.controller;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Book;
@@ -6,14 +6,14 @@ import ru.zdoher.library.service.*;
 
 
 @Service
-public class BookViewImpl implements BookView {
+public class BookControllerImpl implements BookController {
     private BookService bookService;
     private ConsoleService consoleService;
     private AuthorService authorService;
     private GenreService genreService;
     private MessageService messageService;
 
-    public BookViewImpl(BookService bookService, ConsoleService consoleService, AuthorService authorService, GenreService genreService, MessageService messageService) {
+    public BookControllerImpl(BookService bookService, ConsoleService consoleService, AuthorService authorService, GenreService genreService, MessageService messageService) {
         this.bookService = bookService;
         this.consoleService = consoleService;
         this.authorService = authorService;

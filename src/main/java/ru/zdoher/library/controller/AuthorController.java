@@ -1,6 +1,6 @@
-package ru.zdoher.library.view;
+package ru.zdoher.library.controller;
 
-public interface AuthorView {
+public interface AuthorController {
 
     void addAuthor();
 

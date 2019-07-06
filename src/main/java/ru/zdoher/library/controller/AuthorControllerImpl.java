@@ -1,4 +1,4 @@
-package ru.zdoher.library.view;
+package ru.zdoher.library.controller;
 
 
 import org.springframework.stereotype.Service;
@@ -8,12 +8,12 @@ import ru.zdoher.library.service.ConsoleService;
 import ru.zdoher.library.service.MessageService;
 
 @Service
-public class AuthorViewImpl implements AuthorView {
+public class AuthorControllerImpl implements AuthorController {
     private AuthorService authorService;
     private ConsoleService consoleService;
     private MessageService messageService;
 
-    public AuthorViewImpl(AuthorService authorService, ConsoleService consoleService, MessageService messageService) {
+    public AuthorControllerImpl(AuthorService authorService, ConsoleService consoleService, MessageService messageService) {
         this.authorService = authorService;
         this.consoleService = consoleService;
         this.messageService = messageService;
