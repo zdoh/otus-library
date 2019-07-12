@@ -30,10 +30,10 @@ public class GenreControllerImpl implements GenreController {
 
     @Override
     public void addGenre() {
-        consoleService.printString(messageService.getMessage(NEW_NAME));
+        consoleService.printServiceMessage(NEW_NAME);
         String newGenreName = consoleService.getString();
         genreService.insert(new Genre(newGenreName));
-        consoleService.printString(messageService.getMessage(NEW_SUCCESS));
+        consoleService.printServiceMessage(NEW_SUCCESS);
     }
 
     @Override
@@ -58,9 +58,9 @@ public class GenreControllerImpl implements GenreController {
         if (longId == null) return;
 
         if (genreService.deleteById(longId)) {
-            consoleService.printString(messageService.getMessage(DEL_SUCCESS));
+            consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(WRONG_ID));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -73,12 +73,12 @@ public class GenreControllerImpl implements GenreController {
         Genre tmpGenre = genreService.getById(longId);
 
         if (tmpGenre != null) {
-            consoleService.printString(messageService.getMessage(NEW_NAME));
+            consoleService.printServiceMessage(NEW_NAME);
             tmpGenre.setName(consoleService.getString());
             genreService.update(tmpGenre);
-            consoleService.printString(messageService.getMessage(CHANGE_SUCCESS));
+            consoleService.printServiceMessage(CHANGE_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(WRONG_ID));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -87,7 +87,7 @@ public class GenreControllerImpl implements GenreController {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            consoleService.printString(messageService.getMessage(WRONG_ID_NAME));
+            consoleService.printServiceMessage(WRONG_ID_NAME);
         }
 
         return null;

@@ -33,10 +33,10 @@ public class AuthorControllerImpl implements AuthorController {
 
     @Override
     public void addAuthor() {
-        consoleService.printString(messageService.getMessage(NEW_QUESTION));
+        consoleService.printServiceMessage(NEW_QUESTION);
         String newAuthorName = consoleService.getString();
         authorService.insert(new Author(newAuthorName));
-        consoleService.printString(messageService.getMessage(NEW_SUCCESS));
+        consoleService.printServiceMessage(NEW_SUCCESS);
     }
 
 
@@ -63,9 +63,9 @@ public class AuthorControllerImpl implements AuthorController {
         if (longId == null) return;
 
         if (authorService.deleteById(longId)) {
-            consoleService.printString(messageService.getMessage(DEL_SUCCESS));
+            consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(WRONG_ID));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -78,12 +78,12 @@ public class AuthorControllerImpl implements AuthorController {
         Author tempAuthor = authorService.getById(longId);
 
         if (tempAuthor != null) {
-            consoleService.printString(messageService.getMessage(NEW_NAME));
+            consoleService.printServiceMessage(NEW_NAME);
             tempAuthor.setName(consoleService.getString());
             authorService.update(tempAuthor);
-            consoleService.printString(messageService.getMessage(NEW_NAME_SUCCESS));
+            consoleService.printServiceMessage(NEW_NAME_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(WRONG_ID));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -92,7 +92,7 @@ public class AuthorControllerImpl implements AuthorController {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            consoleService.printString(messageService.getMessage(WRONG_ID_NAME));
+            consoleService.printServiceMessage(WRONG_ID_NAME);
         }
 
         return null;

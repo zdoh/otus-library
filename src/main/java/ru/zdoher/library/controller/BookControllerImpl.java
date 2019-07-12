@@ -39,14 +39,14 @@ public class BookControllerImpl implements BookController {
     @Override
     public void addBook() {
         Book newBook = new Book();
-        consoleService.printString(messageService.getMessage(NEW_NAME));
+        consoleService.printServiceMessage(NEW_NAME);
         newBook.setName(consoleService.getString());
 
         String tempString;
 
         while(true) {
             dbService.getAllAuthor().forEach(s -> consoleService.printString(s.toString()));
-            consoleService.printString(messageService.getMessage(NEW_AUTHOR_ID));
+            consoleService.printServiceMessage(NEW_AUTHOR_ID);
             tempString = consoleService.getString();
             if (COMMAND_END.equals(tempString)) return;
 
@@ -57,13 +57,13 @@ public class BookControllerImpl implements BookController {
                newBook.setAuthor(dbService.getAuthorById(longId));
                break;
             } else {
-                consoleService.printString(messageService.getMessage(WRONG_AUTHOR_ID));
+                consoleService.printServiceMessage(WRONG_AUTHOR_ID);
             }
         }
 
         while (true) {
             dbService.getAllGenre().forEach(s -> consoleService.printString(s.toString()));
-            consoleService.printString(messageService.getMessage(NEW_GENRE_ID));
+            consoleService.printServiceMessage(NEW_GENRE_ID);
             tempString = consoleService.getString();
             if (COMMAND_END.equals(tempString)) return;
 
@@ -74,15 +74,15 @@ public class BookControllerImpl implements BookController {
                 newBook.setGenre(dbService.getGenreById(longId));
                 break;
             } else {
-                consoleService.printString(messageService.getMessage(WRONG_GENRE_ID));
+                consoleService.printServiceMessage(WRONG_GENRE_ID);
             }
 
         }
 
         if (dbService.bookInsert(newBook)) {
-            consoleService.printString(messageService.getMessage(NEW_BOOK_SUCCESS));
+            consoleService.printServiceMessage(NEW_BOOK_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(NEW_BOOK_ERROR));
+            consoleService.printServiceMessage(NEW_BOOK_ERROR);
         }
     }
 
@@ -93,15 +93,15 @@ public class BookControllerImpl implements BookController {
 
         Book tmpBook = dbService.getBookById(longId);
 
-        consoleService.printString(COMMENT_NEW + tmpBook.getName());
+        consoleService.printString(messageService.getMessage(COMMENT_NEW) + " " + tmpBook.getName());
         String commentTmp = consoleService.getString();
 
         Comment comment = new Comment(commentTmp, tmpBook);
 
         if(dbService.commentInsert(comment)) {
-            consoleService.printString(messageService.getMessage(COMMENT_NEW_SUCCESS));
+            consoleService.printServiceMessage(COMMENT_NEW_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(COMMENT_NEW_ERROR));
+            consoleService.printServiceMessage(COMMENT_NEW_ERROR);
         }
 
     }
@@ -115,7 +115,7 @@ public class BookControllerImpl implements BookController {
 
         consoleService.printString(tmpBook.toString());
         tmpBook.getComments().forEach(c -> consoleService.printString(c.toString()));
-        consoleService.printString(messageService.getMessage(COMMENT_DEL));
+        consoleService.printServiceMessage(COMMENT_DEL);
 
         Long commentId = correctId(consoleService.getString());
         if (commentId == null) return;
@@ -124,9 +124,9 @@ public class BookControllerImpl implements BookController {
         if (dbService.commentInBookExist(tmpBook.getId(), commentId)) {
 
             dbService.commentDeleteById(commentId);
-            consoleService.printString(messageService.getMessage(COMMENT_DEL_SUCCESS));
+            consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(COMMENT_DEL_WRONG_ID));
+            consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
         }
     }
 
@@ -143,7 +143,7 @@ public class BookControllerImpl implements BookController {
         Book tmpBook = dbService.getBookById(longId);
 
         if (tmpBook == null) {
-            consoleService.printString(messageService.getMessage(WRONG_ID));
+            consoleService.printServiceMessage(WRONG_ID);
         } else {
             consoleService.printString(tmpBook.toString());
             tmpBook.getComments().forEach( c -> consoleService.printString(c.toString()));
@@ -156,9 +156,9 @@ public class BookControllerImpl implements BookController {
         if (longId == null) return;
 
         if (dbService.bookDeleteById(longId)) {
-            consoleService.printString(messageService.getMessage(DELETE_SUCCESS));
+            consoleService.printServiceMessage(DELETE_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage(WRONG_ID));
+            consoleService.printServiceMessage(WRONG_ID);
         }
     }
 
@@ -166,7 +166,7 @@ public class BookControllerImpl implements BookController {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            consoleService.printString(messageService.getMessage(ENTER_NUMBER));
+            consoleService.printServiceMessage(ENTER_NUMBER);
         }
 
         return null;
