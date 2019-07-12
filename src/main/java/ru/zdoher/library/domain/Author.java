@@ -1,11 +1,29 @@
 package ru.zdoher.library.domain;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
 public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    public Author(Long id, String name) {
+    @OneToMany(mappedBy = "author")
+    private List<Book> books;
+
+    public Author() {
+    }
+
+    /*public Author(Long id, String name) {
         this.id = id;
+        this.name = name;
+    }*/
+
+    public Author(String name) {
         this.name = name;
     }
 

@@ -1,17 +1,15 @@
-package ru.zdoher.library.dao;
+package ru.zdoher.library.repositories;
 
 import ru.zdoher.library.domain.Author;
 
 import java.util.List;
 
-public interface AuthorDao {
-    int count();
-
+public interface AuthorRepository {
     List<Author> getAll();
 
     Author getById(Long id);
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 
     void insert(Author author);
 

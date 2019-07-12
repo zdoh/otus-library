@@ -1,10 +1,9 @@
-package ru.zdoher.library.dao;
+package ru.zdoher.library.repositories;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
@@ -14,26 +13,32 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore
-@DisplayName("Класс BookDao")
-@JdbcTest
-@Import({BookDaoImpl.class})
-class BookDaoImplTest {
-    private final Long FIRST_ID = 1L;
-    private final String FIRST_AUTHOR_NAME = "Анджей Сапковский";
-    private final String FIRST_GENRE_NAME = "фэнтези";
-    private final String FIRST_BOOK_NAME = "Последнее желание";
-    private final Long NEW_AUTHOR_NAME = 6L;
-    private final String NEW_BOOK_NAME = "book10";
-    private final int NEW_SIZE = 4;
+@DisplayName("Класс BookRepository")
+@DataJpaTest
+@Import({BookRepositoryImpl.class, GenreRepositoryImpl.class, AuthorRepositoryImpl.class})
+class BookRepositoryImplTest {
+    private static final Long FIRST_ID = 1L;
+    private static final String FIRST_AUTHOR_NAME = "Анджей Сапковский";
+    private static final String FIRST_GENRE_NAME = "фэнтези";
+    private static final String FIRST_BOOK_NAME = "Последнее желание";
+    private static final Long NEW_AUTHOR_NAME = 6L;
+    private static final String NEW_BOOK_NAME = "book10";
+    private static final int NEW_SIZE = 4;
 
     @Autowired
-    private BookDao bookDao;
+    private BookRepository bookRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
+
+    @Autowired
+    private AuthorRepository authorRepository;
+
 
     @DisplayName(" проверка получения всего корретно")
     @Test
     void bookDaoAll() {
-        List<Book> bookList = bookDao.getAll();
+        List<Book> bookList = bookRepository.getAll();
 
         assertThat(bookList).isNotNull()
                 .allMatch( b -> !b.getName().equals(""))
@@ -43,7 +48,7 @@ class BookDaoImplTest {
     @DisplayName(" проверка получения id 1 корректа")
     @Test
     void bookGetById() {
-        Book book = bookDao.getById(FIRST_ID);
+        Book book = bookRepository.getById(FIRST_ID);
 
         assertThat(book).isNotNull()
                 .matches( b -> b.getId().equals(FIRST_ID))
@@ -55,11 +60,11 @@ class BookDaoImplTest {
     @DisplayName(" проверка вставки новой книги корректна")
     @Test
     void bookAdd() {
-        bookDao.insert(new Book(null, NEW_BOOK_NAME,
-                new Author(FIRST_ID, FIRST_AUTHOR_NAME),
-                new Genre(FIRST_ID, FIRST_GENRE_NAME)));
+        bookRepository.insert(new Book(NEW_BOOK_NAME,
+                authorRepository.getById(FIRST_ID),
+                genreRepository.getById(FIRST_ID)));
 
-        Book book = bookDao.getById(NEW_AUTHOR_NAME);
+        Book book = bookRepository.getById(NEW_AUTHOR_NAME);
 
         assertThat(book)
                 .matches( b -> b.getId().equals(NEW_AUTHOR_NAME))
@@ -71,9 +76,9 @@ class BookDaoImplTest {
     @DisplayName(" проверка удаления книги корректна")
     @Test
     void bookDelete() {
-        bookDao.deleteById(FIRST_ID);
+        bookRepository.deleteById(FIRST_ID);
 
-        List<Book> authorList = bookDao.getAll();
+        List<Book> authorList = bookRepository.getAll();
 
         assertThat(authorList.size()).isEqualTo(NEW_SIZE);
 

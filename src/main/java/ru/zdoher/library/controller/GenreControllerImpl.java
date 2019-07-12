@@ -8,6 +8,16 @@ import ru.zdoher.library.service.MessageService;
 
 @Service
 public class GenreControllerImpl implements GenreController {
+    private static final String NEW_NAME = "genre.newName";
+    private static final String NEW_SUCCESS = "genre.newSuccess";
+    private static final String DEL_ATTENTION = "genre.delAttention";
+    private static final String DELETE_YES = "yes";
+    private static final String DELETE_NO = "no";
+    private static final String DEL_SUCCESS = "genre.delSuccess";
+    private static final String WRONG_ID = "genre.wrongId";
+    private static final String CHANGE_SUCCESS = "genre.changeSuccess";
+    private static final String WRONG_ID_NAME = "genre.wrongIdName";
+
     private GenreService genreService;
     private ConsoleService consoleService;
     private MessageService messageService;
@@ -20,10 +30,10 @@ public class GenreControllerImpl implements GenreController {
 
     @Override
     public void addGenre() {
-        consoleService.printString(messageService.getMessage("genre.newName"));
+        consoleService.printString(messageService.getMessage(NEW_NAME));
         String newGenreName = consoleService.getString();
-        genreService.insert(new Genre(null, newGenreName));
-        consoleService.printString(messageService.getMessage("genre.newSuccess"));
+        genreService.insert(new Genre(newGenreName));
+        consoleService.printString(messageService.getMessage(NEW_SUCCESS));
     }
 
     @Override
@@ -36,18 +46,21 @@ public class GenreControllerImpl implements GenreController {
         String decision;
 
         do {
-            consoleService.printString(messageService.getMessage("genre.delAttention"));
+            String fullDelAttentionMes = messageService.getMessage(DEL_ATTENTION) + " ("
+                    + messageService.getMessage(DELETE_YES) + "/"
+                    + messageService.getMessage(DELETE_NO) + "):";
+            consoleService.printString(fullDelAttentionMes);
             decision = consoleService.getString();
-            if ("no".equals(decision)) return;
-        } while (!"yes".equals(decision));
+            if (DELETE_NO.equals(decision)) return;
+        } while (!DELETE_YES.equals(decision));
 
         Long longId = correctId(id);
         if (longId == null) return;
 
         if (genreService.deleteById(longId)) {
-            consoleService.printString(messageService.getMessage("genre.delSuccess"));
+            consoleService.printString(messageService.getMessage(DEL_SUCCESS));
         } else {
-            consoleService.printString(messageService.getMessage("genre.wrongId"));
+            consoleService.printString(messageService.getMessage(WRONG_ID));
         }
 
     }
@@ -57,13 +70,15 @@ public class GenreControllerImpl implements GenreController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (genreService.isExist(longId)) {
-            consoleService.printString(messageService.getMessage("genre.newName"));
-            String newName = consoleService.getString();
-            genreService.update(new Genre(longId, newName));
-            consoleService.printString(messageService.getMessage("genre.changeSuccess"));
+        Genre tmpGenre = genreService.getById(longId);
+
+        if (tmpGenre != null) {
+            consoleService.printString(messageService.getMessage(NEW_NAME));
+            tmpGenre.setName(consoleService.getString());
+            genreService.update(tmpGenre);
+            consoleService.printString(messageService.getMessage(CHANGE_SUCCESS));
         } else {
-            consoleService.printString(messageService.getMessage("genre.wrongId"));
+            consoleService.printString(messageService.getMessage(WRONG_ID));
         }
 
     }
@@ -72,7 +87,7 @@ public class GenreControllerImpl implements GenreController {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            consoleService.printString(messageService.getMessage("genre.wrongIdName"));
+            consoleService.printString(messageService.getMessage(WRONG_ID_NAME));
         }
 
         return null;

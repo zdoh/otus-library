@@ -1,28 +1,28 @@
 package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
-import ru.zdoher.library.dao.BookDao;
+import ru.zdoher.library.repositories.BookRepository;
 import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
-    private BookDao bookDao;
+    private BookRepository bookRepository;
 
-    public BookServiceImpl(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     @Override
     public List<Book> getAll() {
-        return bookDao.getAll();
+        return bookRepository.getAll();
     }
 
 
     @Override
     public Book getById(Long id) {
-        return bookDao.getById(id);
+        return bookRepository.getById(id);
     }
 
     @Override
@@ -31,13 +31,13 @@ public class BookServiceImpl implements BookService {
             return false;
         }
 
-        bookDao.deleteById(id);
+        bookRepository.deleteById(id);
         return true;
     }
 
     @Override
     public boolean insert(Book book) {
-        return bookDao.insert(book);
+        return bookRepository.insert(book);
     }
 
     @Override

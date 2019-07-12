@@ -1,9 +1,9 @@
-package ru.zdoher.library.dao;
+package ru.zdoher.library.repositories;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.zdoher.library.domain.Author;
 
@@ -12,27 +12,27 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DisplayName("Класс authorDao")
-@JdbcTest
-@Import({AuthorDaoImpl.class})
-class AuthorDaoImplTest {
-    private final Long FIRST_ID = 1L;
-    private final String FIRST_NAME = "Анджей Сапковский";
-    private final Long NEW_ID = 3L;
-    private final String NEW_NAME = "author3";
-    private final int NEW_SIZE = 2;
-    private final String NEW_FIRST_NAME = "author1";
-
+@DisplayName("Класс authorRepository")
+@DataJpaTest
+@Import({AuthorRepositoryImpl.class})
+class AuthorRepositoryImplTest {
+    private static final Long FIRST_ID = 1L ;
+    private static final String FIRST_NAME = "Анджей Сапковский";
+    private static final Long NEW_ID = 3L;
+    private static final String NEW_NAME = "author3";
+    private static final int NEW_SIZE = 2;
+    private static final String NEW_FIRST_NAME = "author1";
 
     @Autowired
-    private AuthorDaoImpl authorDao;
+    private AuthorRepositoryImpl authorRepository;
 
     @DisplayName(" проверка получения всего корретно")
     @Test
     void authorDaoAll() {
-        List<Author> authorList = authorDao.getAll();
+        List<Author> authorList = authorRepository.getAll();
 
         assertThat(authorList).isNotNull()
+                .hasSize(2)
                 .allMatch(s -> !s.getName().equals(""))
                 .allMatch(s -> s.getId() != null && s.getId() > 0);
     }
@@ -40,7 +40,7 @@ class AuthorDaoImplTest {
     @DisplayName(" проверка получения id 1 корректа")
     @Test
     void authorGetById() {
-        Author author = authorDao.getById(FIRST_ID);
+        Author author = authorRepository.getById(FIRST_ID);
 
         assertThat(author)
                 .matches( s -> s.getId().equals(FIRST_ID))
@@ -50,13 +50,9 @@ class AuthorDaoImplTest {
     @DisplayName(" проверка вставки нового автора корректна")
     @Test
     void authorAdd() {
-        authorDao.insert(new Author(null, NEW_NAME));
+        authorRepository.insert(new Author(NEW_NAME));
 
-        List<Author> authorList = authorDao.getAll();
-
-        authorList.forEach(s -> System.out.println(s.getId() + " " + s.getName()));
-
-        Author author = authorDao.getById(NEW_ID);
+        Author author = authorRepository.getById(NEW_ID);
 
         assertThat(author)
                 .matches( s -> s.getId().equals(NEW_ID))
@@ -66,9 +62,9 @@ class AuthorDaoImplTest {
     @DisplayName(" проверка удаления автора корректна")
     @Test
     void authorDelete() {
-        authorDao.deleteById(NEW_ID);
+        authorRepository.deleteById(NEW_ID);
 
-        List<Author> authorList = authorDao.getAll();
+        List<Author> authorList = authorRepository.getAll();
 
         assertThat(authorList.size()).isEqualTo(NEW_SIZE);
 
@@ -77,11 +73,14 @@ class AuthorDaoImplTest {
     @DisplayName(" проверка редактирование автора корректна")
     @Test
     void authorRename() {
-        authorDao.update(new Author(FIRST_ID, NEW_FIRST_NAME));
+        Author authorOld = authorRepository.getById(FIRST_ID);
+        authorOld.setName(NEW_FIRST_NAME);
 
-        Author author = authorDao.getById(FIRST_ID);
+        authorRepository.update(authorOld);
 
-        assertThat(author)
+        Author authorNew = authorRepository.getById(FIRST_ID);
+
+        assertThat(authorNew)
                 .matches( s -> s.getName().equals(NEW_FIRST_NAME));
     }
 }

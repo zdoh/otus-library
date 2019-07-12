@@ -6,33 +6,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Класс Book ")
+@DisplayName("Класс Comment")
 @DataJpaTest
-class BookTest {
+class CommentTest {
+
 
     @Autowired
     private TestEntityManager em;
 
     @Test
     @DisplayName(" корректно создается")
-    void bookCreateAndGet() {
+    void authorCreateAndGet() {
         Author author = new Author("authorName");
         Genre genre = new Genre("genreName");
-
         Book book = new Book("bookName", author, genre);
+        Comment comment = new Comment("superComment", book);
         em.persist(author);
         em.persist(genre);
+        em.persist(book);
 
-        Book fromDb = em.persistAndFlush(book);
+        Comment fromDb = em.persistAndFlush(comment);
 
         assertAll(
                 () -> assertThat(fromDb.getId()).isNotZero(),
-                () -> assertThat(fromDb.getName()).isEqualTo(book.getName()),
-                () -> assertThat(fromDb.getAuthor().getName()).isEqualTo(author.getName()),
-                () -> assertThat(fromDb.getGenre().getName()).isEqualTo(genre.getName())
+                () -> assertThat(fromDb.getComment()).isEqualTo(comment.getComment()),
+                () -> assertThat(fromDb.getBook().getName()).isEqualTo(book.getName()),
+                () -> assertThat(fromDb.getBook().getGenre().getName()).isEqualTo(genre.getName()),
+                () -> assertThat(fromDb.getBook().getAuthor().getName()).isEqualTo(author.getName())
         );
 
 

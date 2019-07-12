@@ -24,6 +24,16 @@ public class BookShellCommand {
         bookController.getById(id);
     }
 
+    @ShellMethod("Add comment to book. Use: book-add-comment book_id")
+    public void bookAddComment(@ShellOption String id) {
+        bookController.addCommentToBook(id);
+    }
+
+    @ShellMethod("Delete comment for book. Use: book-del-comment book_id")
+    public void bookDelComment(@ShellOption String id) {
+        bookController.deleteCommentFromBook(id);
+    }
+
     @ShellMethod("Delete book by id. Use: book-delete id")
     public void bookDelete(@ShellOption String id) {
         bookController.delete(id);
