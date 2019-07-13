@@ -15,7 +15,7 @@ public interface DBService {
 
     List<Book> getAllBook();
 
-    List<Comment> getAllForBook(Book book);
+    List<Comment> getAllCommentForBook(Book book);
 
     boolean authorIsExist(Long id);
 
@@ -48,5 +48,7 @@ public interface DBService {
     void updateAuthor(Author author);
 
     void updateGenre(Genre genre);
+
+    boolean bookIsExist(Long id);
 
 }

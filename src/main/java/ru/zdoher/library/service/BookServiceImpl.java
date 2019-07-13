@@ -42,6 +42,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public boolean isExist(Long id) {
-        return getById(id) != null;
+        return bookRepository.isExist(id);
     }
 }

@@ -76,7 +76,7 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", author=" + author.getName() +
                 ", genre=" + genre.getName() +
-//                ", comment count=" + comments.size() +
+                /* ", comment count=" + comments.size() + */
                 '}';
     }
 }

@@ -42,7 +42,7 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public List<Comment> getAllForBook(Book book) {
+    public List<Comment> getAllCommentForBook(Book book) {
         return commentService.getAllForBook(book);
     }
 
@@ -125,5 +125,10 @@ public class DBServiceImpl implements DBService {
     @Override
     public void updateGenre(Genre genre) {
         genreService.update(genre);
+    }
+
+    @Override
+    public boolean bookIsExist(Long id) {
+        return bookService.isExist(id);
     }
 }

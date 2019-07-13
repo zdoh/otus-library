@@ -15,7 +15,7 @@ public class BookControllerImpl implements BookController {
     private static final String WRONG_GENRE_ID = "book.wrongGenreId";
     private static final String NEW_BOOK_SUCCESS = "book.newBookSuccess";
     private static final String NEW_BOOK_ERROR = "book.newBookError";
-    private static final String WRONG_ID = "book.wrongId";
+    private static final String BOOK_WRONG_ID = "book.wrongId";
     private static final String DELETE_SUCCESS = "book.deleteSuccess";
     private static final String ENTER_NUMBER = "book.enterNumber";
     private static final String COMMAND_END = "END";
@@ -93,7 +93,12 @@ public class BookControllerImpl implements BookController {
 
         Book tmpBook = dbService.getBookById(longId);
 
-        consoleService.printString(messageService.getMessage(COMMENT_NEW) + " " + tmpBook.getName());
+        if (tmpBook == null) {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
+            return;
+        }
+
+        consoleService.printString(messageService.getMessage(COMMENT_NEW));
         String commentTmp = consoleService.getString();
 
         Comment comment = new Comment(commentTmp, tmpBook);
@@ -113,8 +118,13 @@ public class BookControllerImpl implements BookController {
 
         Book tmpBook = dbService.getBookById(longId);
 
+        if (tmpBook == null) {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
+            return;
+        }
+
         consoleService.printString(tmpBook.toString());
-        dbService.getAllForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
+        dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
         consoleService.printServiceMessage(COMMENT_DEL);
 
         Long commentId = correctId(consoleService.getString());
@@ -143,10 +153,10 @@ public class BookControllerImpl implements BookController {
         Book tmpBook = dbService.getBookById(longId);
 
         if (tmpBook == null) {
-            consoleService.printServiceMessage(WRONG_ID);
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
         } else {
             consoleService.printString(tmpBook.toString());
-            dbService.getAllForBook(tmpBook).forEach( c -> consoleService.printString(c.toString()));
+            dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
         }
     }
 
@@ -158,7 +168,7 @@ public class BookControllerImpl implements BookController {
         if (dbService.deleteBookById(longId)) {
             consoleService.printServiceMessage(DELETE_SUCCESS);
         } else {
-            consoleService.printServiceMessage(WRONG_ID);
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
         }
     }
 

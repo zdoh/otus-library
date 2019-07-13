@@ -13,4 +13,5 @@ public interface BookRepository {
 
     boolean insert(Book book);
 
+    boolean isExist(Long id);
 }
