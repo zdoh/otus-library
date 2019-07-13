@@ -15,6 +15,8 @@ public interface DBService {
 
     List<Book> getAllBook();
 
+    List<Comment> getAllForBook(Book book);
+
     boolean authorIsExist(Long id);
 
     boolean genreIsExist(Long id);

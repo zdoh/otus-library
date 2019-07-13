@@ -114,7 +114,7 @@ public class BookControllerImpl implements BookController {
         Book tmpBook = dbService.getBookById(longId);
 
         consoleService.printString(tmpBook.toString());
-        tmpBook.getComments().forEach(c -> consoleService.printString(c.toString()));
+        dbService.getAllForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
         consoleService.printServiceMessage(COMMENT_DEL);
 
         Long commentId = correctId(consoleService.getString());
@@ -146,7 +146,7 @@ public class BookControllerImpl implements BookController {
             consoleService.printServiceMessage(WRONG_ID);
         } else {
             consoleService.printString(tmpBook.toString());
-            tmpBook.getComments().forEach( c -> consoleService.printString(c.toString()));
+            dbService.getAllForBook(tmpBook).forEach( c -> consoleService.printString(c.toString()));
         }
     }
 

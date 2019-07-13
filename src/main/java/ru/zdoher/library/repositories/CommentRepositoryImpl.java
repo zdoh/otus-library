@@ -3,11 +3,13 @@ package ru.zdoher.library.repositories;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @SuppressWarnings("JpaQlInspection")
@@ -21,6 +23,13 @@ public class CommentRepositoryImpl implements CommentRepository {
     @Override
     public List<Comment> getAll() {
         return em.createQuery("SELECT c FROM Comment c", Comment.class).getResultList();
+    }
+
+    @Override
+    public List<Comment> getAllForBook(Book book) {
+        TypedQuery<Comment> query = em.createQuery("SELECT c FROM Comment c WHERE c.book.id = :book_id", Comment.class);
+        query.setParameter("book_id", book.getId());
+        return query.getResultList();
     }
 
     @Override
@@ -58,7 +67,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public boolean commentInBookExist(Long idBook, Long idComment) {
-        Query query = em.createQuery("SELECT count(c) FROM Comment c where c.book.id = :book_id and c.id = :id");
+        Query query = em.createQuery("SELECT COUNT(c) FROM Comment c WHERE c.book.id = :book_id AND c.id = :id");
         query.setParameter("id", idComment);
         query.setParameter("book_id", idBook);
         return (Long) query.getSingleResult() != 0;

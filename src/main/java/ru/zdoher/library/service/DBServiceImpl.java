@@ -41,6 +41,11 @@ public class DBServiceImpl implements DBService {
         return bookService.getAll();
     }
 
+    @Override
+    public List<Comment> getAllForBook(Book book) {
+        return commentService.getAllForBook(book);
+    }
+
 
     @Override
     public boolean authorIsExist(Long id) {

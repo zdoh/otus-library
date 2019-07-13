@@ -1,6 +1,7 @@
 package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
+import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.repositories.CommentRepository;
 import ru.zdoher.library.domain.Comment;
 
@@ -18,6 +19,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getAll() {
         return commentRepository.getAll();
+    }
+
+    @Override
+    public List<Comment> getAllForBook(Book book) {
+        return commentRepository.getAllForBook(book);
     }
 
     @Override
