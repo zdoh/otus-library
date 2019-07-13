@@ -73,22 +73,52 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public boolean bookInsert(Book book) {
+    public boolean insertBook(Book book) {
         return bookService.insert(book);
     }
 
     @Override
-    public boolean commentInsert(Comment comment) {
+    public boolean insertComment(Comment comment) {
         return commentService.insert(comment);
     }
 
     @Override
-    public void commentDeleteById(Long id) {
+    public void insertAuthor(Author author) {
+        authorService.insert(author);
+    }
+
+    @Override
+    public void insertGenre(Genre genre) {
+        genreService.insert(genre);
+    }
+
+    @Override
+    public void deleteCommentById(Long id) {
         commentService.deleteById(id);
     }
 
     @Override
-    public boolean bookDeleteById(Long id) {
+    public boolean deleteBookById(Long id) {
         return bookService.deleteById(id);
+    }
+
+    @Override
+    public boolean deleteAuthorById(Long id) {
+        return authorService.deleteById(id);
+    }
+
+    @Override
+    public boolean deleteGenreById(Long id) {
+        return genreService.deleteById(id);
+    }
+
+    @Override
+    public void updateAuthor(Author author) {
+        authorService.update(author);
+    }
+
+    @Override
+    public void updateGenre(Genre genre) {
+        genreService.update(genre);
     }
 }

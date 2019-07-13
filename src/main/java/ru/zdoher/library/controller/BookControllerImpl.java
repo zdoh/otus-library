@@ -79,7 +79,7 @@ public class BookControllerImpl implements BookController {
 
         }
 
-        if (dbService.bookInsert(newBook)) {
+        if (dbService.insertBook(newBook)) {
             consoleService.printServiceMessage(NEW_BOOK_SUCCESS);
         } else {
             consoleService.printServiceMessage(NEW_BOOK_ERROR);
@@ -98,7 +98,7 @@ public class BookControllerImpl implements BookController {
 
         Comment comment = new Comment(commentTmp, tmpBook);
 
-        if(dbService.commentInsert(comment)) {
+        if(dbService.insertComment(comment)) {
             consoleService.printServiceMessage(COMMENT_NEW_SUCCESS);
         } else {
             consoleService.printServiceMessage(COMMENT_NEW_ERROR);
@@ -123,7 +123,7 @@ public class BookControllerImpl implements BookController {
 
         if (dbService.commentInBookExist(tmpBook.getId(), commentId)) {
 
-            dbService.commentDeleteById(commentId);
+            dbService.deleteCommentById(commentId);
             consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
@@ -155,7 +155,7 @@ public class BookControllerImpl implements BookController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (dbService.bookDeleteById(longId)) {
+        if (dbService.deleteBookById(longId)) {
             consoleService.printServiceMessage(DELETE_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);

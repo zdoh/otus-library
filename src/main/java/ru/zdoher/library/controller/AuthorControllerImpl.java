@@ -3,8 +3,8 @@ package ru.zdoher.library.controller;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Author;
-import ru.zdoher.library.service.AuthorService;
 import ru.zdoher.library.service.ConsoleService;
+import ru.zdoher.library.service.DBService;
 import ru.zdoher.library.service.MessageService;
 
 @Service
@@ -20,29 +20,28 @@ public class AuthorControllerImpl implements AuthorController {
     private static final String DELETE_YES = "yes";
     private static final String DELETE_NO = "no";
 
-    private AuthorService authorService;
     private ConsoleService consoleService;
     private MessageService messageService;
+    private DBService dbService;
 
-
-    public AuthorControllerImpl(AuthorService authorService, ConsoleService consoleService, MessageService messageService) {
-        this.authorService = authorService;
+    public AuthorControllerImpl(ConsoleService consoleService, MessageService messageService, DBService dbService) {
         this.consoleService = consoleService;
         this.messageService = messageService;
+        this.dbService = dbService;
     }
 
     @Override
     public void addAuthor() {
         consoleService.printServiceMessage(NEW_QUESTION);
         String newAuthorName = consoleService.getString();
-        authorService.insert(new Author(newAuthorName));
+        dbService.insertAuthor(new Author(newAuthorName));
         consoleService.printServiceMessage(NEW_SUCCESS);
     }
 
 
     @Override
     public void showAll() {
-        authorService.getAll().forEach( a -> consoleService.printString(a.toString()));
+        dbService.getAllAuthor().forEach( a -> consoleService.printString(a.toString()));
     }
 
 
@@ -62,7 +61,7 @@ public class AuthorControllerImpl implements AuthorController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (authorService.deleteById(longId)) {
+        if (dbService.deleteAuthorById(longId)) {
             consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);
@@ -75,12 +74,12 @@ public class AuthorControllerImpl implements AuthorController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        Author tempAuthor = authorService.getById(longId);
+        Author tempAuthor = dbService.getAuthorById(longId);
 
         if (tempAuthor != null) {
             consoleService.printServiceMessage(NEW_NAME);
             tempAuthor.setName(consoleService.getString());
-            authorService.update(tempAuthor);
+            dbService.updateAuthor(tempAuthor);
             consoleService.printServiceMessage(NEW_NAME_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);

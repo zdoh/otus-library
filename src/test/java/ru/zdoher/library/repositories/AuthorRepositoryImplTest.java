@@ -26,7 +26,7 @@ class AuthorRepositoryImplTest {
     @Autowired
     private AuthorRepositoryImpl authorRepository;
 
-    @DisplayName(" проверка получения всего корретно")
+    @DisplayName(" проверка получения всего - корректно")
     @Test
     void authorDaoAll() {
         List<Author> authorList = authorRepository.getAll();
@@ -37,7 +37,7 @@ class AuthorRepositoryImplTest {
                 .allMatch(s -> s.getId() != null && s.getId() > 0);
     }
 
-    @DisplayName(" проверка получения id 1 корректа")
+    @DisplayName(" проверка получения id 1 - корректно")
     @Test
     void authorGetById() {
         Author author = authorRepository.getById(FIRST_ID);
@@ -47,7 +47,7 @@ class AuthorRepositoryImplTest {
                 .matches( s -> s.getName().equals(FIRST_NAME));
     }
 
-    @DisplayName(" проверка вставки нового автора корректна")
+    @DisplayName(" проверка вставки нового автора - корректно")
     @Test
     void authorAdd() {
         authorRepository.insert(new Author(NEW_NAME));
@@ -59,7 +59,7 @@ class AuthorRepositoryImplTest {
                 .matches( s -> s.getName().equals(NEW_NAME));
     }
 
-    @DisplayName(" проверка удаления автора корректна")
+    @DisplayName(" проверка удаления автора - корректно")
     @Test
     void authorDelete() {
         authorRepository.deleteById(NEW_ID);
@@ -70,7 +70,7 @@ class AuthorRepositoryImplTest {
 
     }
 
-    @DisplayName(" проверка редактирование автора корректна")
+    @DisplayName(" проверка редактирование автора - корректно")
     @Test
     void authorRename() {
         Author authorOld = authorRepository.getById(FIRST_ID);

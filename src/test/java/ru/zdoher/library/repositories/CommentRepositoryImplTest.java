@@ -4,12 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DisplayName("Класс CommentRepository")
@@ -26,12 +26,12 @@ class CommentRepositoryImplTest {
     private CommentRepository commentRepository;
 
     @Autowired
-    private BookRepository bookRepository;
+    private TestEntityManager em;
 
-    @DisplayName(" добавление коммантария корректно")
+    @DisplayName(" добавление коммантария - корректно")
     @Test
     void addCommentToBook() {
-        commentRepository.insert(new Comment(NEW_COMMENT, bookRepository.getById(FIRST_ID)));
+        commentRepository.insert(new Comment(NEW_COMMENT, em.find(Book.class, FIRST_ID)));
 
         Comment comment = commentRepository.getById(NEW_COMMENT_ID);
 
@@ -41,7 +41,7 @@ class CommentRepositoryImplTest {
                 .matches( c -> c.getBook().getId().equals(FIRST_ID));
     }
 
-    @DisplayName(" проверка удаление комментария пренадлежащей книге")
+    @DisplayName(" проверка удаление комментария пренадлежащей книге - корректно")
     @Test
     void checkCorrectCommentDelete() {
         boolean bool = commentRepository.commentInBookExist(FIRST_ID, FIRST_ID);
@@ -50,7 +50,7 @@ class CommentRepositoryImplTest {
 
     }
 
-    @DisplayName(" проверка удаление комментария не пренадлежащей книге")
+    @DisplayName(" проверка удаление комментария не пренадлежащей книге - корректно")
     @Test
     void checkWrongCommentDelete() {
         boolean bool = commentRepository.commentInBookExist(FIRST_ID, WRONG_DEL_COMMENT_ID);

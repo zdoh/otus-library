@@ -27,12 +27,24 @@ public interface DBService {
 
     Book getBookById(Long id);
 
-    boolean bookInsert(Book book);
+    boolean insertBook(Book book);
 
-    boolean commentInsert(Comment comment);
+    boolean insertComment(Comment comment);
 
-    void commentDeleteById(Long id);
+    void insertAuthor(Author author);
 
-    boolean bookDeleteById(Long id);
+    void insertGenre(Genre genre);
+
+    void deleteCommentById(Long id);
+
+    boolean deleteBookById(Long id);
+
+    boolean deleteAuthorById(Long id);
+
+    boolean deleteGenreById(Long id);
+
+    void updateAuthor(Author author);
+
+    void updateGenre(Genre genre);
 
 }

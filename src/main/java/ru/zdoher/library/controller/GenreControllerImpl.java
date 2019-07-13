@@ -3,7 +3,7 @@ package ru.zdoher.library.controller;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Genre;
 import ru.zdoher.library.service.ConsoleService;
-import ru.zdoher.library.service.GenreService;
+import ru.zdoher.library.service.DBService;
 import ru.zdoher.library.service.MessageService;
 
 @Service
@@ -18,27 +18,29 @@ public class GenreControllerImpl implements GenreController {
     private static final String CHANGE_SUCCESS = "genre.changeSuccess";
     private static final String WRONG_ID_NAME = "genre.wrongIdName";
 
-    private GenreService genreService;
+    //private GenreService genreService;
     private ConsoleService consoleService;
     private MessageService messageService;
+    private DBService dbService;
 
-    public GenreControllerImpl(GenreService genreService, ConsoleService consoleService, MessageService messageService) {
-        this.genreService = genreService;
+
+    public GenreControllerImpl(ConsoleService consoleService, MessageService messageService, DBService dbService) {
         this.consoleService = consoleService;
         this.messageService = messageService;
+        this.dbService = dbService;
     }
 
     @Override
     public void addGenre() {
         consoleService.printServiceMessage(NEW_NAME);
         String newGenreName = consoleService.getString();
-        genreService.insert(new Genre(newGenreName));
+        dbService.insertGenre(new Genre(newGenreName));
         consoleService.printServiceMessage(NEW_SUCCESS);
     }
 
     @Override
     public void showAll() {
-        genreService.getAll().forEach(g -> consoleService.printString(g.toString()));
+        dbService.getAllGenre().forEach(g -> consoleService.printString(g.toString()));
     }
 
     @Override
@@ -57,7 +59,7 @@ public class GenreControllerImpl implements GenreController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (genreService.deleteById(longId)) {
+        if (dbService.deleteGenreById(longId)) {
             consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);
@@ -70,12 +72,12 @@ public class GenreControllerImpl implements GenreController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        Genre tmpGenre = genreService.getById(longId);
+        Genre tmpGenre = dbService.getGenreById(longId);
 
         if (tmpGenre != null) {
             consoleService.printServiceMessage(NEW_NAME);
             tmpGenre.setName(consoleService.getString());
-            genreService.update(tmpGenre);
+            dbService.updateGenre(tmpGenre);
             consoleService.printServiceMessage(CHANGE_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);

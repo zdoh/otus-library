@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
@@ -29,13 +30,9 @@ class BookRepositoryImplTest {
     private BookRepository bookRepository;
 
     @Autowired
-    private GenreRepository genreRepository;
+    private TestEntityManager em;
 
-    @Autowired
-    private AuthorRepository authorRepository;
-
-
-    @DisplayName(" проверка получения всего корретно")
+    @DisplayName(" проверка получения всего - корректно")
     @Test
     void bookDaoAll() {
         List<Book> bookList = bookRepository.getAll();
@@ -45,7 +42,7 @@ class BookRepositoryImplTest {
                 .allMatch( b -> b.getId() != null && b.getId() > 0);
     }
 
-    @DisplayName(" проверка получения id 1 корректа")
+    @DisplayName(" проверка получения id 1 - корректно")
     @Test
     void bookGetById() {
         Book book = bookRepository.getById(FIRST_ID);
@@ -57,12 +54,12 @@ class BookRepositoryImplTest {
                 .matches( b -> b.getName().equals(FIRST_BOOK_NAME));
     }
 
-    @DisplayName(" проверка вставки новой книги корректна")
+    @DisplayName(" проверка вставки новой книги - корректно")
     @Test
     void bookAdd() {
         bookRepository.insert(new Book(NEW_BOOK_NAME,
-                authorRepository.getById(FIRST_ID),
-                genreRepository.getById(FIRST_ID)));
+                em.find(Author.class, FIRST_ID),
+                em.find(Genre.class, FIRST_ID)));
 
         Book book = bookRepository.getById(NEW_AUTHOR_NAME);
 
@@ -73,7 +70,7 @@ class BookRepositoryImplTest {
                 .matches( b -> b.getGenre().getName().equals(FIRST_GENRE_NAME));
     }
 
-    @DisplayName(" проверка удаления книги корректна")
+    @DisplayName(" проверка удаления книги - корректно")
     @Test
     void bookDelete() {
         bookRepository.deleteById(FIRST_ID);

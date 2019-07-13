@@ -1,6 +1,7 @@
 package ru.zdoher.library.repositories;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zdoher.library.domain.Book;
@@ -18,6 +19,7 @@ public class BookRepositoryImpl implements BookRepository {
     private EntityManager em;
 
     @Override
+    //@EntityGraph
     public List<Book> getAll() {
         return em.createQuery("SELECT b FROM Book b", Book.class).getResultList();
     }
