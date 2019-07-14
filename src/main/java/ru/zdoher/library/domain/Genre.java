@@ -1,7 +1,6 @@
 package ru.zdoher.library.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Genre  {
@@ -11,9 +10,6 @@ public class Genre  {
     private Long id;
 
     private String name;
-
-    @OneToMany(mappedBy = "genre")
-    private List<Book> books;
 
     public Genre() {
     }

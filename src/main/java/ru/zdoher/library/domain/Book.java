@@ -1,7 +1,6 @@
 package ru.zdoher.library.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Book {
@@ -17,9 +16,6 @@ public class Book {
 
     @ManyToOne
     private Genre genre;
-
-    /*@OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
-    private List<Comment> comments;*/
 
     public Book() {}
 
@@ -61,13 +57,6 @@ public class Book {
         this.genre = genre;
     }
 
-/*    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }*/
 
     @Override
     public String toString() {
@@ -76,7 +65,6 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", author=" + author.getName() +
                 ", genre=" + genre.getName() +
-                /* ", comment count=" + comments.size() + */
                 '}';
     }
 }
