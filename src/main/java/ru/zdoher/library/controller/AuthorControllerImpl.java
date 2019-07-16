@@ -3,34 +3,45 @@ package ru.zdoher.library.controller;
 
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Author;
-import ru.zdoher.library.service.AuthorService;
 import ru.zdoher.library.service.ConsoleService;
+import ru.zdoher.library.service.DBService;
 import ru.zdoher.library.service.MessageService;
 
 @Service
 public class AuthorControllerImpl implements AuthorController {
-    private AuthorService authorService;
+    private static final String NEW_QUESTION = "author.newQuestion";
+    private static final String NEW_SUCCESS = "author.newSuccess";
+    private static final String DEL_ATTENTION = "author.delAttention";
+    private static final String DEL_SUCCESS = "author.delSuccess";
+    private static final String WRONG_ID = "author.wrongId";
+    private static final String NEW_NAME = "author.newName";
+    private static final String NEW_NAME_SUCCESS = "author.newNameSuccess";
+    private static final String WRONG_ID_NAME = "author.wrongIdName";
+    private static final String DELETE_YES = "yes";
+    private static final String DELETE_NO = "no";
+
     private ConsoleService consoleService;
     private MessageService messageService;
+    private DBService dbService;
 
-    public AuthorControllerImpl(AuthorService authorService, ConsoleService consoleService, MessageService messageService) {
-        this.authorService = authorService;
+    public AuthorControllerImpl(ConsoleService consoleService, MessageService messageService, DBService dbService) {
         this.consoleService = consoleService;
         this.messageService = messageService;
+        this.dbService = dbService;
     }
 
     @Override
     public void addAuthor() {
-        consoleService.printString(messageService.getMessage("author.newQuestion"));
+        consoleService.printServiceMessage(NEW_QUESTION);
         String newAuthorName = consoleService.getString();
-        authorService.insert(new Author(null, newAuthorName));
-        consoleService.printString(messageService.getMessage("author.newSuccess"));
+        dbService.insertAuthor(new Author(newAuthorName));
+        consoleService.printServiceMessage(NEW_SUCCESS);
     }
 
 
     @Override
     public void showAll() {
-        authorService.getAll().forEach( a -> consoleService.printString(a.toString()));
+        dbService.getAllAuthor().forEach( a -> consoleService.printString(a.toString()));
     }
 
 
@@ -39,18 +50,21 @@ public class AuthorControllerImpl implements AuthorController {
         String decision;
 
         do {
-            consoleService.printString(messageService.getMessage("author.delAttention"));
+            String fullDelAttentionMes = messageService.getMessage(DEL_ATTENTION) + " ("
+                    + messageService.getMessage(DELETE_YES) + "/"
+                    + messageService.getMessage(DELETE_NO) + "):";
+            consoleService.printString(fullDelAttentionMes);
             decision = consoleService.getString();
-            if ("no".equals(decision)) return;
-        } while (!"yes".equals(decision));
+            if (DELETE_NO.equals(decision)) return;
+        } while (!DELETE_YES.equals(decision));
 
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (authorService.deleteById(longId)) {
-            consoleService.printString(messageService.getMessage("author.newSuccess"));
+        if (dbService.deleteAuthorById(longId)) {
+            consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage("author.wrongId"));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -60,13 +74,15 @@ public class AuthorControllerImpl implements AuthorController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (authorService.isExist(longId)) {
-            consoleService.printString(messageService.getMessage("author.newName"));
-            String newName = consoleService.getString();
-            authorService.update(new Author(longId, newName));
-            consoleService.printString(messageService.getMessage("author.newNameSuccess"));
+        Author tempAuthor = dbService.getAuthorById(longId);
+
+        if (tempAuthor != null) {
+            consoleService.printServiceMessage(NEW_NAME);
+            tempAuthor.setName(consoleService.getString());
+            dbService.updateAuthor(tempAuthor);
+            consoleService.printServiceMessage(NEW_NAME_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage("author.wrongId"));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -75,7 +91,7 @@ public class AuthorControllerImpl implements AuthorController {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            consoleService.printString(messageService.getMessage("author.wrongIdName"));
+            consoleService.printServiceMessage(WRONG_ID_NAME);
         }
 
         return null;

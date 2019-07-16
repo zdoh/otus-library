@@ -3,32 +3,44 @@ package ru.zdoher.library.controller;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Genre;
 import ru.zdoher.library.service.ConsoleService;
-import ru.zdoher.library.service.GenreService;
+import ru.zdoher.library.service.DBService;
 import ru.zdoher.library.service.MessageService;
 
 @Service
 public class GenreControllerImpl implements GenreController {
-    private GenreService genreService;
+    private static final String NEW_NAME = "genre.newName";
+    private static final String NEW_SUCCESS = "genre.newSuccess";
+    private static final String DEL_ATTENTION = "genre.delAttention";
+    private static final String DELETE_YES = "yes";
+    private static final String DELETE_NO = "no";
+    private static final String DEL_SUCCESS = "genre.delSuccess";
+    private static final String WRONG_ID = "genre.wrongId";
+    private static final String CHANGE_SUCCESS = "genre.changeSuccess";
+    private static final String WRONG_ID_NAME = "genre.wrongIdName";
+
+    //private GenreService genreService;
     private ConsoleService consoleService;
     private MessageService messageService;
+    private DBService dbService;
 
-    public GenreControllerImpl(GenreService genreService, ConsoleService consoleService, MessageService messageService) {
-        this.genreService = genreService;
+
+    public GenreControllerImpl(ConsoleService consoleService, MessageService messageService, DBService dbService) {
         this.consoleService = consoleService;
         this.messageService = messageService;
+        this.dbService = dbService;
     }
 
     @Override
     public void addGenre() {
-        consoleService.printString(messageService.getMessage("genre.newName"));
+        consoleService.printServiceMessage(NEW_NAME);
         String newGenreName = consoleService.getString();
-        genreService.insert(new Genre(null, newGenreName));
-        consoleService.printString(messageService.getMessage("genre.newSuccess"));
+        dbService.insertGenre(new Genre(newGenreName));
+        consoleService.printServiceMessage(NEW_SUCCESS);
     }
 
     @Override
     public void showAll() {
-        genreService.getAll().forEach(g -> consoleService.printString(g.toString()));
+        dbService.getAllGenre().forEach(g -> consoleService.printString(g.toString()));
     }
 
     @Override
@@ -36,18 +48,21 @@ public class GenreControllerImpl implements GenreController {
         String decision;
 
         do {
-            consoleService.printString(messageService.getMessage("genre.delAttention"));
+            String fullDelAttentionMes = messageService.getMessage(DEL_ATTENTION) + " ("
+                    + messageService.getMessage(DELETE_YES) + "/"
+                    + messageService.getMessage(DELETE_NO) + "):";
+            consoleService.printString(fullDelAttentionMes);
             decision = consoleService.getString();
-            if ("no".equals(decision)) return;
-        } while (!"yes".equals(decision));
+            if (DELETE_NO.equals(decision)) return;
+        } while (!DELETE_YES.equals(decision));
 
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (genreService.deleteById(longId)) {
-            consoleService.printString(messageService.getMessage("genre.delSuccess"));
+        if (dbService.deleteGenreById(longId)) {
+            consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage("genre.wrongId"));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -57,13 +72,15 @@ public class GenreControllerImpl implements GenreController {
         Long longId = correctId(id);
         if (longId == null) return;
 
-        if (genreService.isExist(longId)) {
-            consoleService.printString(messageService.getMessage("genre.newName"));
-            String newName = consoleService.getString();
-            genreService.update(new Genre(longId, newName));
-            consoleService.printString(messageService.getMessage("genre.changeSuccess"));
+        Genre tmpGenre = dbService.getGenreById(longId);
+
+        if (tmpGenre != null) {
+            consoleService.printServiceMessage(NEW_NAME);
+            tmpGenre.setName(consoleService.getString());
+            dbService.updateGenre(tmpGenre);
+            consoleService.printServiceMessage(CHANGE_SUCCESS);
         } else {
-            consoleService.printString(messageService.getMessage("genre.wrongId"));
+            consoleService.printServiceMessage(WRONG_ID);
         }
 
     }
@@ -72,7 +89,7 @@ public class GenreControllerImpl implements GenreController {
         try {
             return Long.parseLong(id);
         } catch (NumberFormatException e) {
-            consoleService.printString(messageService.getMessage("genre.wrongIdName"));
+            consoleService.printServiceMessage(WRONG_ID_NAME);
         }
 
         return null;

@@ -6,6 +6,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
 
+  jpa:
+    show-sql: true
+
   messages:
     encoding: UTF-8
     basename: bundle

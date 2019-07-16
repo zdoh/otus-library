@@ -1,16 +1,17 @@
-package ru.zdoher.library.dao;
+package ru.zdoher.library.repositories;
 
 import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookRepository {
     List<Book> getAll();
 
     Book getById(Long id);
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 
     boolean insert(Book book);
 
+    boolean isExist(Long id);
 }

@@ -1,15 +1,25 @@
 package ru.zdoher.library.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    @ManyToOne
     private Author author;
+
+    @ManyToOne
     private Genre genre;
 
     public Book() {}
 
-    public Book(Long id, String name, Author author, Genre genre) {
-        this.id = id;
+    public Book(String name, Author author, Genre genre) {
         this.name = name;
         this.author = author;
         this.genre = genre;
@@ -47,13 +57,14 @@ public class Book {
         this.genre = genre;
     }
 
+
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author=" + author +
-                ", genre=" + genre +
+                ", author=" + author.getName() +
+                ", genre=" + genre.getName() +
                 '}';
     }
 }

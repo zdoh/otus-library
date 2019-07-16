@@ -5,4 +5,6 @@ public interface ConsoleService {
     String getString();
 
     void printString(String string);
+
+    void printServiceMessage(String string);
 }

@@ -1,48 +1,42 @@
 package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
-import ru.zdoher.library.dao.GenreDao;
+import ru.zdoher.library.repositories.GenreRepository;
 import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
 
 @Service
 public class GenreServiceImpl implements GenreService {
-    private GenreDao genreDao;
+    private GenreRepository genreRepository;
 
-    public GenreServiceImpl(GenreDao genreDao) {
-        this.genreDao = genreDao;
+    public GenreServiceImpl(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
     }
 
     @Override
     public List<Genre> getAll() {
-        return genreDao.getAll();
+        return genreRepository.getAll();
     }
 
     @Override
     public Genre getById(Long id) {
-        return genreDao.getById(id);
+        return genreRepository.getById(id);
     }
 
     @Override
     public boolean deleteById(Long id) {
-
-        if(!isExist(id)) {
-            return false;
-        }
-
-        genreDao.deleteById(id);
-        return true;
+        return genreRepository.deleteById(id);
     }
 
     @Override
     public void update(Genre genre) {
-        genreDao.update(genre);
+        genreRepository.update(genre);
     }
 
     @Override
     public void insert(Genre genre) {
-        genreDao.insert(genre);
+        genreRepository.insert(genre);
     }
 
     @Override
