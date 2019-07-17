@@ -16,31 +16,36 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Author> getAll() {
-        return authorRepository.getAll();
+        return authorRepository.findAll();
     }
 
     @Override
     public Author getById(Long id) {
-        return authorRepository.getById(id);
+        return authorRepository.findById(id).orElse(null);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return authorRepository.deleteById(id);
+        if (isExist(id)) {
+            authorRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public void insert(Author author) {
-        authorRepository.insert(author);
+        authorRepository.save(author);
     }
 
     @Override
     public void update(Author author) {
-        authorRepository.update(author);
+        authorRepository.save(author);
     }
 
     @Override
     public boolean isExist(Long id) {
-        return getById(id) != null;
+        return authorRepository.existsById(id);
     }
 }

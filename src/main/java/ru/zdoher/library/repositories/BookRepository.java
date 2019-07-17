@@ -1,17 +1,17 @@
 package ru.zdoher.library.repositories;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 
-public interface BookRepository {
-    List<Book> getAll();
+@Repository
+public interface BookRepository extends CrudRepository<Book, Long> {
 
-    Book getById(Long id);
-
-    boolean deleteById(Long id);
-
-    boolean insert(Book book);
-
-    boolean isExist(Long id);
+    // сделал чтобы сохранился FETCH
+    @Query("SELECT b FROM Book b LEFT JOIN FETCH b.author LEFT JOIN FETCH b.genre")
+    List<Book> findAll();
 }

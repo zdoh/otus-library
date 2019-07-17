@@ -29,9 +29,9 @@ public interface DBService {
 
     Book getBookById(Long id);
 
-    boolean insertBook(Book book);
+    void insertBook(Book book);
 
-    boolean insertComment(Comment comment);
+    void insertComment(Comment comment);
 
     void insertAuthor(Author author);
 

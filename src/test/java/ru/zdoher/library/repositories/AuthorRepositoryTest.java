@@ -5,37 +5,34 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.zdoher.library.domain.Genre;
+import ru.zdoher.library.domain.Author;
 
 import javax.transaction.Transactional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-
-@DisplayName("Класс GenreRepository")
+@DisplayName("Класс authorRepository")
 @DataJpaTest
 @Transactional
-class GenreRepositoryImplTest {
-    private static final String NEW_GENRE_NAME = "genre3";
+class AuthorRepositoryTest {
+    private static final String NEW_NAME = "newAuthor";
 
     @Autowired
     private TestEntityManager em;
 
     @Autowired
-    private GenreRepository genreRepository;
+    private AuthorRepository authorRepository;
 
     @Test
     @DisplayName(" создание и получение - корректно")
-    void genreCreateAndGet() {
-        final Genre newGenre = em.persist(new Genre(NEW_GENRE_NAME));
+    void authorCreateAndGet() {
+        final Author newAuthor = em.persist(new Author(NEW_NAME));
 
-        Genre author = genreRepository.findById(newGenre.getId()).orElse(null);
+        Author author = authorRepository.findById(newAuthor.getId()).orElse(null);
 
         assertThat(author).isNotNull()
-                .matches(s -> s.getName().equals(newGenre.getName()))
-                .matches(s -> s.getId().equals(newGenre.getId()));
-
+                .matches(s -> s.getName().equals(newAuthor.getName()))
+                .matches(s -> s.getId().equals(newAuthor.getId()));
     }
 }

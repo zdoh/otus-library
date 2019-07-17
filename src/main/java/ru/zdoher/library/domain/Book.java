@@ -1,5 +1,8 @@
 package ru.zdoher.library.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,9 +15,11 @@ public class Book {
     private String name;
 
     @ManyToOne
+    //@Fetch(FetchMode.SUBSELECT)
     private Author author;
 
     @ManyToOne
+    //@Fetch(FetchMode.SUBSELECT)
     private Genre genre;
 
     public Book() {}

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class GenreServiceImpl implements GenreService {
+
     private GenreRepository genreRepository;
 
     public GenreServiceImpl(GenreRepository genreRepository) {
@@ -16,31 +17,36 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<Genre> getAll() {
-        return genreRepository.getAll();
+        return genreRepository.findAll();
     }
 
     @Override
     public Genre getById(Long id) {
-        return genreRepository.getById(id);
+        return genreRepository.findById(id).orElse(null);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return genreRepository.deleteById(id);
+        if (isExist(id)) {
+            genreRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public void update(Genre genre) {
-        genreRepository.update(genre);
+        genreRepository.save(genre);
     }
 
     @Override
     public void insert(Genre genre) {
-        genreRepository.insert(genre);
+        genreRepository.save(genre);
     }
 
     @Override
     public boolean isExist(Long id) {
-        return getById(id) != null;
+        return genreRepository.existsById(id);
     }
 }

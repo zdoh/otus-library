@@ -1,17 +1,12 @@
 package ru.zdoher.library.repositories;
 
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.zdoher.library.domain.Author;
 
 import java.util.List;
 
-public interface AuthorRepository {
-    List<Author> getAll();
-
-    Author getById(Long id);
-
-    boolean deleteById(Long id);
-
-    void insert(Author author);
-
-    void update(Author author);
+@Repository
+public interface AuthorRepository extends CrudRepository<Author, Long> {
+    List<Author> findAll();
 }
