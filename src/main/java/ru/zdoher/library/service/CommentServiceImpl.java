@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean commentInBookExist(Long idBook, Long idComment) {
-        return commentRepository.commentInBookExist(idBook, idComment);
+    public boolean commentInBookExist(Long id, Long bookId) {
+        return commentRepository.existsByIdAndBookId(id, bookId);
     }
 }

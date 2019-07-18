@@ -21,7 +21,7 @@ public interface DBService {
 
     boolean genreIsExist(Long id);
 
-    boolean commentInBookExist(Long bookId, Long commentId);
+    boolean commentInBookExist(Long id, Long bookId);
 
     Author getAuthorById(Long id);
 

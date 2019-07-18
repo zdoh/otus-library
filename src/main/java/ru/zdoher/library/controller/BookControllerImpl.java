@@ -126,7 +126,7 @@ public class BookControllerImpl implements BookController {
         if (commentId == null) return;
 
 
-        if (dbService.commentInBookExist(tmpBook.getId(), commentId)) {
+        if (dbService.commentInBookExist(commentId, tmpBook.getId())) {
 
             dbService.deleteCommentById(commentId);
             consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
