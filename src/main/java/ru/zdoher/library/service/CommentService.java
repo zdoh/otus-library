@@ -13,7 +13,7 @@ public interface CommentService {
 
     boolean deleteById(Long id);
 
-    boolean insert(Comment comment);
+    void insert(Comment comment);
 
     boolean commentInBookExist(Long idBook, Long idComment);
 }

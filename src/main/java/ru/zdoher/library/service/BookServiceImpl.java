@@ -1,5 +1,6 @@
 package ru.zdoher.library.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.repositories.BookRepository;
 import ru.zdoher.library.domain.Book;
@@ -16,32 +17,32 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAll() {
-        return bookRepository.getAll();
+        return bookRepository.findAll();
     }
 
 
     @Override
     public Book getById(Long id) {
-        return bookRepository.getById(id);
+        return bookRepository.findById(id).orElse(null);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        if(!isExist(id)) {
-            return false;
+        if(isExist(id)) {
+            bookRepository.deleteById(id);
+            return true;
         }
 
-        bookRepository.deleteById(id);
-        return true;
+        return false;
     }
 
     @Override
-    public boolean insert(Book book) {
-        return bookRepository.insert(book);
+    public void insert(Book book) {
+        bookRepository.save(book);
     }
 
     @Override
     public boolean isExist(Long id) {
-        return bookRepository.isExist(id);
+        return bookRepository.existsById(id);
     }
 }

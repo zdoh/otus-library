@@ -11,7 +11,7 @@ public interface BookService {
 
     boolean deleteById(Long id);
 
-    boolean insert(Book book);
+    void insert(Book book);
 
     boolean isExist(Long id);
 }

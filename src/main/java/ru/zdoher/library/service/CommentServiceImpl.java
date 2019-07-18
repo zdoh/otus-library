@@ -18,26 +18,31 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getAll() {
-        return commentRepository.getAll();
+        return commentRepository.findAll();
     }
 
     @Override
     public List<Comment> getAllForBook(Book book) {
-        return commentRepository.getAllForBook(book);
+        return commentRepository.findCommentsByBook(book);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return commentRepository.deleteById(id);
+        if (commentRepository.existsById(id)) {
+            commentRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
-    public boolean insert(Comment comment)  {
-        return commentRepository.insert(comment);
+    public void insert(Comment comment)  {
+        commentRepository.save(comment);
     }
 
     @Override
-    public boolean commentInBookExist(Long idBook, Long idComment) {
-        return commentRepository.commentInBookExist(idBook, idComment);
+    public boolean commentInBookExist(Long id, Long bookId) {
+        return commentRepository.existsByIdAndBookId(id, bookId);
     }
 }

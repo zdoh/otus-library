@@ -58,8 +58,8 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public boolean commentInBookExist(Long bookId, Long commentId) {
-        return commentService.commentInBookExist(bookId, commentId);
+    public boolean commentInBookExist(Long id, Long bookId) {
+        return commentService.commentInBookExist(id, bookId);
     }
 
     @Override
@@ -78,13 +78,13 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public boolean insertBook(Book book) {
-        return bookService.insert(book);
+    public void insertBook(Book book) {
+        bookService.insert(book);
     }
 
     @Override
-    public boolean insertComment(Comment comment) {
-        return commentService.insert(comment);
+    public void insertComment(Comment comment) {
+        commentService.insert(comment);
     }
 
     @Override

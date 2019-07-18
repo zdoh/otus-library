@@ -1,23 +1,18 @@
 package ru.zdoher.library.repositories;
 
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
 
 import java.util.List;
 
-public interface CommentRepository {
+@Repository
+public interface CommentRepository extends CrudRepository<Comment, Long> {
 
-    List<Comment> getAll();
+    List<Comment> findAll();
 
-    List<Comment> getAllForBook(Book book);
+    List<Comment> findCommentsByBook(Book book);
 
-    Comment getById(Long id);
-
-    boolean insert(Comment comment);
-
-    boolean deleteById(Long id);
-
-    void update(Comment comment);
-
-    boolean commentInBookExist(Long idBook, Long idComment);
+    boolean existsByIdAndBookId(Long id, Long bookId);
 }

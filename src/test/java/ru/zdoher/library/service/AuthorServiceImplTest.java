@@ -11,9 +11,11 @@ import ru.zdoher.library.repositories.AuthorRepository;
 import ru.zdoher.library.domain.Author;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 
 @DisplayName("Class AuthorService")
 @SpringBootTest(classes = AuthorServiceImpl.class)
@@ -41,7 +43,7 @@ class AuthorServiceImplTest {
     @Test
     @DisplayName(" get by id correct")
     void authorGetById() {
-        when(authorRepository.getById(1L)).thenReturn(authorHashMap.get(1L));
+        when(authorRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(authorHashMap.get(1L)));
 
         assertAll(
                 () -> assertEquals("author1", authorService.getById(1L).getName())
@@ -51,7 +53,7 @@ class AuthorServiceImplTest {
     @Test
     @DisplayName(" get by null correct")
     void authorGetNull() {
-        when(authorRepository.getById(3L)).thenReturn(null);
+        when(authorRepository.findById(3L)).thenReturn(Optional.empty());
 
         assertAll(
                 () -> assertNull(authorService.getById(3L))
