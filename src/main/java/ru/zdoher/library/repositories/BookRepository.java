@@ -12,6 +12,6 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     // сделал чтобы сохранился FETCH
-    @Query("SELECT b FROM Book b LEFT JOIN FETCH b.author LEFT JOIN FETCH b.genre")
+    //@Query("SELECT b FROM Book b LEFT JOIN FETCH b.author LEFT JOIN FETCH b.genre")
     List<Book> findAll();
 }
