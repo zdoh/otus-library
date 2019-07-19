@@ -1,5 +1,6 @@
 package ru.zdoher.library.repositories;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     // сделал чтобы сохранился FETCH
-    //@Query("SELECT b FROM Book b LEFT JOIN FETCH b.author LEFT JOIN FETCH b.genre")
+    // @Query("SELECT b FROM Book b LEFT JOIN FETCH b.author LEFT JOIN FETCH b.genre")
+    // посмотрел следующии лекции и переделал
+    @EntityGraph("bookGraph")
     List<Book> findAll();
 }

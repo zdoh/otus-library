@@ -6,6 +6,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 
 @Entity
+@NamedEntityGraph(name = "bookGraph", includeAllAttributes = true)
 public class Book {
 
     @Id
@@ -15,11 +16,9 @@ public class Book {
     private String name;
 
     @ManyToOne
-    //@Fetch(FetchMode.SUBSELECT)
     private Author author;
 
     @ManyToOne
-    //@Fetch(FetchMode.SUBSELECT)
     private Genre genre;
 
     public Book() {}
