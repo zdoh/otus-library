@@ -21,7 +21,7 @@ public interface DBService {
 
     boolean genreIsExist(String id);
 
-    boolean commentInBookExist(String bookId, String commentId);
+    //boolean commentInBookExist(String bookId, String commentId);
 
     Author getAuthorById(String id);
 
@@ -31,13 +31,11 @@ public interface DBService {
 
     void insertBook(Book book);
 
-    void insertComment(Comment comment);
 
     void insertAuthor(Author author);
 
     void insertGenre(Genre genre);
 
-    void deleteCommentById(String id);
 
     boolean deleteBookById(String id);
 
@@ -45,7 +43,7 @@ public interface DBService {
 
     boolean deleteGenreById(String id);
 
-    boolean deleteCommentById(String bookId, String commentId);
+    /*boolean deleteCommentById(String bookId, String commentId);*/
 
     void updateAuthor(Author author);
 

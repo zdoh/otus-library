@@ -118,16 +118,24 @@ public class BookControllerImpl implements BookController {
 
         consoleService.printString(tmpBook.toString());
         //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
+
+        for( int i = 1; i <= tmpBook.getComments().size(); i++) {
+            consoleService.printString(i + " | " + tmpBook.getComments().get(i - 1));
+        }
+
         consoleService.printServiceMessage(COMMENT_DEL);
 
-        String commentId = consoleService.getString();
+        Integer commentId = correctId(consoleService.getString());
         if (commentId == null) return;
 
-        if (dbService.deleteCommentById(tmpBook.getId(), commentId)) {
+        if (commentId > 0 && commentId <= tmpBook.getComments().size()) {
+            tmpBook.getComments().remove(commentId - 1);
+            dbService.updateBook(tmpBook);
             consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
         }
+
     }
 
     @Override
@@ -160,4 +168,15 @@ public class BookControllerImpl implements BookController {
             consoleService.printServiceMessage(BOOK_WRONG_ID);
         }
     }
+
+    private Integer correctId(String id) {
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            consoleService.printServiceMessage(ENTER_NUMBER);
+        }
+
+        return null;
+    }
+
 }

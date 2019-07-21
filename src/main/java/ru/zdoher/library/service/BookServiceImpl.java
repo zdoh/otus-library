@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
         return false;
     }
 
-    @Override
+    /*@Override
     public boolean deleteCommentById(String bookId, String commentId) {
         if (commentIsExist(bookId, commentId)) {
             bookRepository.deleteCommentsByIdAndCommentsId(bookId, commentId);
@@ -45,7 +45,7 @@ public class BookServiceImpl implements BookService {
         }
 
         return false;
-    }
+    }*/
 
     @Override
     public void insert(Book book) {
@@ -63,9 +63,9 @@ public class BookServiceImpl implements BookService {
         return bookRepository.existsById(id);
     }
 
-    @Override
+    /*@Override
     public boolean commentIsExist(String bookId, String commentId) {
         return bookRepository.existsCommentsByIdAndCommentsId(bookId, commentId);
-    }
+    }*/
 
 }

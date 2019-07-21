@@ -12,7 +12,7 @@ public interface BookService {
 
     boolean deleteById(String id);
 
-    boolean deleteCommentById(String bookId, String commentId);
+    /*boolean deleteCommentById(String bookId, String commentId);*/
 
     void insert(Book book);
 
@@ -20,5 +20,5 @@ public interface BookService {
 
     boolean isExist(String id);
 
-    boolean commentIsExist(String bookId, String commentId);
+    /*boolean commentIsExist(String bookId, String commentId);*/
 }
