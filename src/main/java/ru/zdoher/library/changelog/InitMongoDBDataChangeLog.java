@@ -43,7 +43,7 @@ public class InitMongoDBDataChangeLog {
         genre2 = template.save(new Genre("ужасы"));
     }
 
-/*    @ChangeSet(order = "003", id = "initCommenst", author = "zdoh", runAlways = true)
+    @ChangeSet(order = "003", id = "initCommenst", author = "zdoh", runAlways = true)
     public void initComments(MongoTemplate template) {
         comment1 = template.save(new Comment("очень классная книга"));
         comment2 = template.save(new Comment("читал оторваться не мог"));
@@ -51,17 +51,18 @@ public class InitMongoDBDataChangeLog {
         comment4 = template.save(new Comment("название внушает уважение"));
         comment5 = template.save(new Comment("из-за названия купил, но пока не читал"));
         comment6 = template.save(new Comment("не понравилось, игра лучше"));
-    }*/
+    }
 
-    /*@ChangeSet(order = "004", id = "initBook", author = "zdoh", runAlways = true)
+    @ChangeSet(order = "004", id = "initBook", author = "zdoh", runAlways = true)
     public void initBooks(MongoTemplate template) {
         template.save(new Book("Последнее желание", author1, genre1, comment1));
         template.save(new Book("Меч Предназначения", author1, genre1, comment2, comment6));
         template.save(new Book("Кровь эльфов", author1, genre1, comment5));
         template.save(new Book("Зов Ктулху", author2, genre2, comment3));
         template.save(new Book("Данвический ужас", author2, genre2, comment4));
-    }*/
+    }
 
+    /*
     @ChangeSet(order = "004", id = "initBook", author = "zdoh", runAlways = true)
     public void initBooks(MongoTemplate template) {
         template.save(new Book("Последнее желание", author1, genre1, new Comment("очень классная книга")));
@@ -69,7 +70,7 @@ public class InitMongoDBDataChangeLog {
         template.save(new Book("Кровь эльфов", author1, genre1, new Comment("из-за названия купил, но пока не читал")));
         template.save(new Book("Зов Ктулху", author2, genre2, new Comment("не читал, но одобряю")));
         template.save(new Book("Данвический ужас", author2, genre2, new Comment("название внушает уважение")));
-    }
+    }*/
 
 }
 

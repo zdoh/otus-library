@@ -1,7 +1,6 @@
 package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
-import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.repositories.CommentRepository;
 import ru.zdoher.library.domain.Comment;
 
@@ -37,8 +36,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void insert(Comment comment)  {
-        commentRepository.save(comment);
+    public Comment insert(Comment comment)  {
+        return commentRepository.save(comment);
     }
 
 /*    @Override

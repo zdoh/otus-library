@@ -5,8 +5,6 @@ import ru.zdoher.library.repositories.GenreRepository;
 import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 @Service
 public class GenreServiceImpl implements GenreService {

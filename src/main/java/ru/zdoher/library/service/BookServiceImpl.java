@@ -38,16 +38,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean deleteCommentById(String bookId, String commentId) {
-        if (commentIsExist(bookId, commentId)) {
-            bookRepository.deleteCommentsByIdAndCommentsId(bookId, commentId);
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
     public void insert(Book book) {
         bookRepository.insert(book);
     }

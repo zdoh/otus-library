@@ -41,12 +41,6 @@ public class DBServiceImpl implements DBService {
         return bookService.getAll();
     }
 
-/*    @Override
-    public List<Comment> getAllCommentForBook(Book book) {
-        return commentService.getAllForBook(book);
-    }*/
-
-
     @Override
     public boolean authorIsExist(String id) {
         return authorService.isExist(id);
@@ -83,8 +77,8 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public void insertComment(Comment comment) {
-        commentService.insert(comment);
+    public Comment insertComment(Comment comment) {
+        return commentService.insert(comment);
     }
 
     @Override
@@ -115,11 +109,6 @@ public class DBServiceImpl implements DBService {
     @Override
     public boolean deleteGenreById(String id) {
         return genreService.deleteById(id);
-    }
-
-    @Override
-    public boolean deleteCommentById(String bookId, String commentId) {
-        return bookService.deleteCommentById(bookId, commentId);
     }
 
     @Override

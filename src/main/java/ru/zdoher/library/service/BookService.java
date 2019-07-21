@@ -12,8 +12,6 @@ public interface BookService {
 
     boolean deleteById(String id);
 
-    boolean deleteCommentById(String bookId, String commentId);
-
     void insert(Book book);
 
     void update(Book book);

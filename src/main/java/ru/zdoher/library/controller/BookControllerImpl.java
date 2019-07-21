@@ -99,7 +99,15 @@ public class BookControllerImpl implements BookController {
         consoleService.printString(messageService.getMessage(COMMENT_NEW));
         val newComment = new Comment(consoleService.getString());
 
-        tmpBook.getComments().add(newComment);
+        System.out.println("1");
+
+        try {
+            tmpBook.getComments().add(dbService.insertComment(newComment));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("2");
         dbService.updateBook(tmpBook);
         consoleService.printServiceMessage(COMMENT_NEW_SUCCESS);
 
@@ -117,13 +125,14 @@ public class BookControllerImpl implements BookController {
         }
 
         consoleService.printString(tmpBook.toString());
-        //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
         consoleService.printServiceMessage(COMMENT_DEL);
+        consoleService.printString(tmpBook.getComments().toString());
 
         String commentId = consoleService.getString();
         if (commentId == null) return;
 
-        if (dbService.deleteCommentById(tmpBook.getId(), commentId)) {
+        if (dbService.commentInBookExist(tmpBook.getId(), commentId)) {
+            dbService.deleteCommentById(commentId);
             consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
@@ -144,7 +153,6 @@ public class BookControllerImpl implements BookController {
 
         if (tmpBook != null) {
             consoleService.printString(tmpBook.toString());
-            //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
         } else {
             consoleService.printServiceMessage(BOOK_WRONG_ID);
         }
@@ -153,8 +161,11 @@ public class BookControllerImpl implements BookController {
     @Override
     public void delete(String id) {
         if (id == null) return;
+        val tmpBook = dbService.getBookById(id);
 
-        if (dbService.deleteBookById(id)) {
+        if (tmpBook != null) {
+            tmpBook.getComments().forEach( c -> dbService.deleteCommentById(c.getId()));
+            dbService.deleteBookById(id);
             consoleService.printServiceMessage(DELETE_SUCCESS);
         } else {
             consoleService.printServiceMessage(BOOK_WRONG_ID);

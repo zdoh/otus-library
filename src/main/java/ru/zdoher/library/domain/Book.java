@@ -7,14 +7,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//@Document
-//@NamedEntityGraph(name = "bookGraph", includeAllAttributes = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Document
 public class Book {
 
     @Id
@@ -29,7 +29,7 @@ public class Book {
     private Genre genre;
 
     @DBRef
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     public Book(String name, Author author, Genre genre, Comment... comments) {
         this.name = name;

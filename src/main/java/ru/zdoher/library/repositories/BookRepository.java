@@ -12,5 +12,4 @@ import java.util.List;
 
 public interface BookRepository extends MongoRepository<Book, String> {
     boolean existsCommentsByIdAndCommentsId(String bookId, String commentId);
-    void deleteCommentsByIdAndCommentsId(String id, String commentId);
 }

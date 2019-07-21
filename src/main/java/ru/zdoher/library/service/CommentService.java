@@ -1,6 +1,5 @@
 package ru.zdoher.library.service;
 
-import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface CommentService {
 
     boolean deleteById(String id);
 
-    void insert(Comment comment);
+    Comment insert(Comment comment);
 
     /*boolean commentInBookExist(Long idBook, Long idComment);*/
 }
