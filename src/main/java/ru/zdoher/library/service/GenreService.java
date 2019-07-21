@@ -7,13 +7,13 @@ import java.util.List;
 public interface GenreService {
     List<Genre> getAll();
 
-    Genre getById(Long id);
+    Genre getById(String id);
 
-    boolean deleteById(Long id);
+    boolean deleteById(String id);
 
     void insert(Genre genre);
 
     void update(Genre genre);
 
-    boolean isExist(Long id);
+    boolean isExist(String id);
 }

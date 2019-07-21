@@ -1,57 +1,27 @@
 package ru.zdoher.library.domain;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Book book;
-
-    public Comment() {
-    }
-
-    public Comment (String comment, Book book) {
+    public Comment(String comment) {
         this.comment = comment;
-        this.book = book;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", comment='" + comment +
-                '}';
     }
 }
 

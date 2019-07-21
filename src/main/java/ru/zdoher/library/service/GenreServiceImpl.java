@@ -5,6 +5,8 @@ import ru.zdoher.library.repositories.GenreRepository;
 import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class GenreServiceImpl implements GenreService {
@@ -21,12 +23,12 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre getById(Long id) {
+    public Genre getById(String id) {
         return genreRepository.findById(id).orElse(null);
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(String id) {
         if (isExist(id)) {
             genreRepository.deleteById(id);
             return true;
@@ -46,7 +48,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public boolean isExist(Long id) {
+    public boolean isExist(String id) {
         return genreRepository.existsById(id);
     }
 }

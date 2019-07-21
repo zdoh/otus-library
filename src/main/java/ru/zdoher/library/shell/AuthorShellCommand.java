@@ -28,12 +28,12 @@ public class AuthorShellCommand {
         authorController.addAuthor();
     }
 
-    @ShellMethod("Delete author by id. Use: author-delete id")
+    @ShellMethod("Delete author by id. Use: author-delete №")
     public void authorDelete(@ShellOption String id) {
         authorController.deleteById(id);
     }
 
-    @ShellMethod("Rename author by id. Use: author-rename id")
+    @ShellMethod("Rename author by id. Use: author-rename №")
     public void authorRename(@ShellOption String id) {
         authorController.update(id);
     }

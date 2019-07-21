@@ -3,15 +3,22 @@ package ru.zdoher.library.service;
 import ru.zdoher.library.domain.Book;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
     List<Book> getAll();
 
-    Book getById(Long id);
+    Book getById(String id);
 
-    boolean deleteById(Long id);
+    boolean deleteById(String id);
+
+    boolean deleteCommentById(String bookId, String commentId);
 
     void insert(Book book);
 
-    boolean isExist(Long id);
+    void update(Book book);
+
+    boolean isExist(String id);
+
+    boolean commentIsExist(String bookId, String commentId);
 }

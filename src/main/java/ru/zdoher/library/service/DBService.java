@@ -15,19 +15,19 @@ public interface DBService {
 
     List<Book> getAllBook();
 
-    List<Comment> getAllCommentForBook(Book book);
+    /*List<Comment> getAllCommentForBook(Book book);*/
 
-    boolean authorIsExist(Long id);
+    boolean authorIsExist(String id);
 
-    boolean genreIsExist(Long id);
+    boolean genreIsExist(String id);
 
-    boolean commentInBookExist(Long id, Long bookId);
+    boolean commentInBookExist(String bookId, String commentId);
 
-    Author getAuthorById(Long id);
+    Author getAuthorById(String id);
 
-    Genre getGenreById(Long id);
+    Genre getGenreById(String id);
 
-    Book getBookById(Long id);
+    Book getBookById(String id);
 
     void insertBook(Book book);
 
@@ -37,18 +37,23 @@ public interface DBService {
 
     void insertGenre(Genre genre);
 
-    void deleteCommentById(Long id);
+    void deleteCommentById(String id);
 
-    boolean deleteBookById(Long id);
+    boolean deleteBookById(String id);
 
-    boolean deleteAuthorById(Long id);
+    boolean deleteAuthorById(String id);
 
-    boolean deleteGenreById(Long id);
+    boolean deleteGenreById(String id);
+
+    boolean deleteCommentById(String bookId, String commentId);
 
     void updateAuthor(Author author);
 
     void updateGenre(Genre genre);
 
-    boolean bookIsExist(Long id);
+    void updateBook(Book book);
+
+    boolean bookIsExist(String id);
+
 
 }

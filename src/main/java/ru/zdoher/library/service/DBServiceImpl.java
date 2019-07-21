@@ -41,39 +41,39 @@ public class DBServiceImpl implements DBService {
         return bookService.getAll();
     }
 
-    @Override
+/*    @Override
     public List<Comment> getAllCommentForBook(Book book) {
         return commentService.getAllForBook(book);
-    }
+    }*/
 
 
     @Override
-    public boolean authorIsExist(Long id) {
+    public boolean authorIsExist(String id) {
         return authorService.isExist(id);
     }
 
     @Override
-    public boolean genreIsExist(Long id) {
+    public boolean genreIsExist(String id) {
         return genreService.isExist(id);
     }
 
     @Override
-    public boolean commentInBookExist(Long id, Long bookId) {
-        return commentService.commentInBookExist(id, bookId);
+    public boolean commentInBookExist(String bookId, String commentId) {
+        return bookService.commentIsExist(bookId, commentId);
     }
 
     @Override
-    public Author getAuthorById(Long id) {
+    public Author getAuthorById(String id) {
         return authorService.getById(id);
     }
 
     @Override
-    public Genre getGenreById(Long id) {
+    public Genre getGenreById(String id) {
         return genreService.getById(id);
     }
 
     @Override
-    public Book getBookById(Long id) {
+    public Book getBookById(String id) {
         return bookService.getById(id);
     }
 
@@ -98,23 +98,28 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public void deleteCommentById(Long id) {
+    public void deleteCommentById(String id) {
         commentService.deleteById(id);
     }
 
     @Override
-    public boolean deleteBookById(Long id) {
+    public boolean deleteBookById(String id) {
         return bookService.deleteById(id);
     }
 
     @Override
-    public boolean deleteAuthorById(Long id) {
+    public boolean deleteAuthorById(String id) {
         return authorService.deleteById(id);
     }
 
     @Override
-    public boolean deleteGenreById(Long id) {
+    public boolean deleteGenreById(String id) {
         return genreService.deleteById(id);
+    }
+
+    @Override
+    public boolean deleteCommentById(String bookId, String commentId) {
+        return bookService.deleteCommentById(bookId, commentId);
     }
 
     @Override
@@ -128,7 +133,12 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public boolean bookIsExist(Long id) {
+    public void updateBook(Book book) {
+        bookService.update(book);
+    }
+
+    @Override
+    public boolean bookIsExist(String id) {
         return bookService.isExist(id);
     }
 }

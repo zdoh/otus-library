@@ -2,6 +2,7 @@ package ru.zdoher.library.repositories;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -9,12 +10,7 @@ import ru.zdoher.library.domain.Book;
 
 import java.util.List;
 
-@Repository
-public interface BookRepository extends CrudRepository<Book, Long> {
-
-    // сделал чтобы сохранился FETCH
-    // @Query("SELECT b FROM Book b LEFT JOIN FETCH b.author LEFT JOIN FETCH b.genre")
-    // посмотрел следующии лекции и переделал
-    @EntityGraph("bookGraph")
-    List<Book> findAll();
+public interface BookRepository extends MongoRepository<Book, String> {
+    boolean existsCommentsByIdAndCommentsId(String bookId, String commentId);
+    void deleteCommentsByIdAndCommentsId(String id, String commentId);
 }

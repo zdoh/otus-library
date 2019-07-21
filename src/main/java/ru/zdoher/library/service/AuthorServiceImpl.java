@@ -20,12 +20,12 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author getById(Long id) {
+    public Author getById(String id) {
         return authorRepository.findById(id).orElse(null);
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(String id) {
         if (isExist(id)) {
             authorRepository.deleteById(id);
             return true;
@@ -36,7 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void insert(Author author) {
-        authorRepository.save(author);
+        authorRepository.insert(author);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public boolean isExist(Long id) {
+    public boolean isExist(String id) {
         return authorRepository.existsById(id);
     }
 }

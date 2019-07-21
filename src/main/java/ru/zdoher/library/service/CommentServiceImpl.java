@@ -21,13 +21,13 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
-    @Override
+/*    @Override
     public List<Comment> getAllForBook(Book book) {
         return commentRepository.findCommentsByBook(book);
-    }
+    }*/
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean deleteById(String id) {
         if (commentRepository.existsById(id)) {
             commentRepository.deleteById(id);
             return true;
@@ -41,8 +41,8 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
     }
 
-    @Override
-    public boolean commentInBookExist(Long id, Long bookId) {
+/*    @Override
+    public boolean commentInBookExist(String id, String bookId) {
         return commentRepository.existsByIdAndBookId(id, bookId);
-    }
+    }*/
 }

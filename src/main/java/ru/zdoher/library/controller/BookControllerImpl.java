@@ -1,5 +1,6 @@
 package ru.zdoher.library.controller;
 
+import lombok.val;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
@@ -49,12 +50,12 @@ public class BookControllerImpl implements BookController {
             consoleService.printServiceMessage(NEW_AUTHOR_ID);
             tempString = consoleService.getString();
             if (COMMAND_END.equals(tempString)) return;
+            if (tempString == null) continue;
 
-            Long longId = correctId(tempString);
-            if (longId == null) continue;
+            val tempAuthor = dbService.getAuthorById(tempString);
 
-            if (dbService.authorIsExist(longId)) {
-               newBook.setAuthor(dbService.getAuthorById(longId));
+            if (tempAuthor != null) {
+               newBook.setAuthor(tempAuthor);
                break;
             } else {
                 consoleService.printServiceMessage(WRONG_AUTHOR_ID);
@@ -66,12 +67,12 @@ public class BookControllerImpl implements BookController {
             consoleService.printServiceMessage(NEW_GENRE_ID);
             tempString = consoleService.getString();
             if (COMMAND_END.equals(tempString)) return;
+            if (tempString == null) continue;
 
-            Long longId = correctId(tempString);
-            if (longId == null) continue;
+            val tempGenre = dbService.getGenreById(tempString);
 
-            if (dbService.genreIsExist(longId)) {
-                newBook.setGenre(dbService.getGenreById(longId));
+            if (tempGenre != null) {
+                newBook.setGenre(tempGenre);
                 break;
             } else {
                 consoleService.printServiceMessage(WRONG_GENRE_ID);
@@ -86,10 +87,9 @@ public class BookControllerImpl implements BookController {
 
     @Override
     public void addCommentToBook(String id) {
-        Long longId = correctId(id);
-        if (longId == null) return;
+        if (id == null) return;
 
-        Book tmpBook = dbService.getBookById(longId);
+        val tmpBook = dbService.getBookById(id);
 
         if (tmpBook == null) {
             consoleService.printServiceMessage(BOOK_WRONG_ID);
@@ -97,21 +97,19 @@ public class BookControllerImpl implements BookController {
         }
 
         consoleService.printString(messageService.getMessage(COMMENT_NEW));
-        String commentTmp = consoleService.getString();
+        val newComment = new Comment(consoleService.getString());
 
-        Comment comment = new Comment(commentTmp, tmpBook);
-
-        dbService.insertComment(comment);
+        tmpBook.getComments().add(newComment);
+        dbService.updateBook(tmpBook);
         consoleService.printServiceMessage(COMMENT_NEW_SUCCESS);
 
     }
 
     @Override
     public void deleteCommentFromBook(String id) {
-        Long longId = correctId(id);
-        if (longId == null) return;
+        if (id == null) return;
 
-        Book tmpBook = dbService.getBookById(longId);
+        Book tmpBook = dbService.getBookById(id);
 
         if (tmpBook == null) {
             consoleService.printServiceMessage(BOOK_WRONG_ID);
@@ -119,16 +117,13 @@ public class BookControllerImpl implements BookController {
         }
 
         consoleService.printString(tmpBook.toString());
-        dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
+        //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
         consoleService.printServiceMessage(COMMENT_DEL);
 
-        Long commentId = correctId(consoleService.getString());
+        String commentId = consoleService.getString();
         if (commentId == null) return;
 
-
-        if (dbService.commentInBookExist(commentId, tmpBook.getId())) {
-
-            dbService.deleteCommentById(commentId);
+        if (dbService.deleteCommentById(tmpBook.getId(), commentId)) {
             consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
@@ -142,39 +137,27 @@ public class BookControllerImpl implements BookController {
 
     @Override
     public void getById(String id) {
-        Long longId = correctId(id);
-        if (longId == null) return;
 
-        Book tmpBook = dbService.getBookById(longId);
+        if (id == null) return;
 
-        if (tmpBook == null) {
-            consoleService.printServiceMessage(BOOK_WRONG_ID);
-        } else {
+        Book tmpBook = dbService.getBookById(id);
+
+        if (tmpBook != null) {
             consoleService.printString(tmpBook.toString());
-            dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
+            //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
+        } else {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
         }
     }
 
     @Override
     public void delete(String id) {
-        Long longId = correctId(id);
-        if (longId == null) return;
+        if (id == null) return;
 
-        if (dbService.deleteBookById(longId)) {
+        if (dbService.deleteBookById(id)) {
             consoleService.printServiceMessage(DELETE_SUCCESS);
         } else {
             consoleService.printServiceMessage(BOOK_WRONG_ID);
         }
     }
-
-    private Long correctId(String id) {
-        try {
-            return Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            consoleService.printServiceMessage(ENTER_NUMBER);
-        }
-
-        return null;
-    }
-
 }
