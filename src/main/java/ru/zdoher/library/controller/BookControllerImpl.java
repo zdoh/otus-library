@@ -164,7 +164,7 @@ public class BookControllerImpl implements BookController {
         val tmpBook = dbService.getBookById(id);
 
         if (tmpBook != null) {
-            tmpBook.getComments().forEach( c -> dbService.deleteCommentById(c.getId()));
+            //tmpBook.getComments().forEach( c -> dbService.deleteCommentById(c.getId()));
             dbService.deleteBookById(id);
             consoleService.printServiceMessage(DELETE_SUCCESS);
         } else {
