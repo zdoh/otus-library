@@ -10,7 +10,6 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
 public class Comment {
 
     private UUID id = UUID.randomUUID();

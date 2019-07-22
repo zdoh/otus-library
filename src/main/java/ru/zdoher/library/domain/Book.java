@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//@Document
-//@NamedEntityGraph(name = "bookGraph", includeAllAttributes = true)
+@Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

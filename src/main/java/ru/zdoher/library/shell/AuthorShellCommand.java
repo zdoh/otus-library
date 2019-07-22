@@ -13,11 +13,6 @@ public class AuthorShellCommand {
         this.authorController = authorController;
     }
 
-    /*@ShellMethod("Command to count")
-    public void count() {
-        System.out.println(authorController.count());
-    }*/
-
     @ShellMethod("Command to show all")
     public void authorShowAll() {
         authorController.showAll();
