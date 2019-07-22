@@ -2,7 +2,6 @@ package ru.zdoher.library.service;
 
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
-import ru.zdoher.library.domain.Comment;
 import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
@@ -15,13 +14,9 @@ public interface DBService {
 
     List<Book> getAllBook();
 
-    /*List<Comment> getAllCommentForBook(Book book);*/
-
     boolean authorIsExist(String id);
 
     boolean genreIsExist(String id);
-
-    //boolean commentInBookExist(String bookId, String commentId);
 
     Author getAuthorById(String id);
 
@@ -31,11 +26,9 @@ public interface DBService {
 
     void insertBook(Book book);
 
-
     void insertAuthor(Author author);
 
     void insertGenre(Genre genre);
-
 
     boolean deleteBookById(String id);
 

@@ -3,7 +3,6 @@ package ru.zdoher.library.service;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
-import ru.zdoher.library.domain.Comment;
 import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
@@ -14,13 +13,11 @@ public class DBServiceImpl implements DBService {
     private BookService bookService;
     private AuthorService authorService;
     private GenreService genreService;
-    private ConsoleService consoleService;
 
-    public DBServiceImpl(BookService bookService, AuthorService authorService, GenreService genreService, ConsoleService consoleService) {
+    public DBServiceImpl(BookService bookService, AuthorService authorService, GenreService genreService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.genreService = genreService;
-        this.consoleService = consoleService;
     }
 
     @Override
@@ -38,11 +35,6 @@ public class DBServiceImpl implements DBService {
         return bookService.getAll();
     }
 
-/*    @Override
-    public List<Comment> getAllCommentForBook(Book book) {
-        return commentService.getAllForBook(book);
-    }*/
-
 
     @Override
     public boolean authorIsExist(String id) {
@@ -53,11 +45,6 @@ public class DBServiceImpl implements DBService {
     public boolean genreIsExist(String id) {
         return genreService.isExist(id);
     }
-
-/*    @Override
-    public boolean commentInBookExist(String bookId, String commentId) {
-        return bookService.commentIsExist(bookId, commentId);
-    }*/
 
     @Override
     public Author getAuthorById(String id) {
@@ -103,11 +90,6 @@ public class DBServiceImpl implements DBService {
     public boolean deleteGenreById(String id) {
         return genreService.deleteById(id);
     }
-
-/*    @Override
-    public boolean deleteCommentById(String bookId, String commentId) {
-        return bookService.deleteCommentById(bookId, commentId);
-    }*/
 
     @Override
     public void updateAuthor(Author author) {

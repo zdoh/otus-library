@@ -3,23 +3,16 @@ package ru.zdoher.library.repositories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import ru.zdoher.library.domain.Author;
-
-import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DisplayName("Класс authorRepository")
-@DataJpaTest
-@Transactional
+@DataMongoTest
 class AuthorRepositoryTest {
     private static final String NEW_NAME = "newAuthor";
-
-    @Autowired
-    private TestEntityManager em;
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -27,7 +20,7 @@ class AuthorRepositoryTest {
     @Test
     @DisplayName(" создание и получение - корректно")
     void authorCreateAndGet() {
-        final Author newAuthor = em.persist(new Author(NEW_NAME));
+        final Author newAuthor = authorRepository.insert(new Author(NEW_NAME));
 
         Author author = authorRepository.findById(newAuthor.getId()).orElse(null);
 

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class Book {
     @DBRef
     private Genre genre;
 
-    @DBRef
-    private List<Comment> comments;
+    //@DBRef
+    private List<Comment> comments = new ArrayList<>();
 
     public Book(String name, Author author, Genre genre, Comment... comments) {
         this.name = name;

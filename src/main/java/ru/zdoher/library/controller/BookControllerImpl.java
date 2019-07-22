@@ -117,7 +117,6 @@ public class BookControllerImpl implements BookController {
         }
 
         consoleService.printString(tmpBook.toString());
-        //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
 
         for( int i = 1; i <= tmpBook.getComments().size(); i++) {
             consoleService.printString(i + " | " + tmpBook.getComments().get(i - 1));
