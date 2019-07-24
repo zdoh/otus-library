@@ -1,17 +1,176 @@
 package ru.zdoher.library.controller;
 
-public interface BookController {
+import lombok.val;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import ru.zdoher.library.domain.Book;
+import ru.zdoher.library.domain.Comment;
+import ru.zdoher.library.service.*;
 
-    void addBook();
+import java.util.List;
 
-    void addCommentToBook(String id);
 
-    void deleteCommentFromBook(String id);
+@Controller
+public class BookController {
+/*    private static final String NEW_NAME = "book.newName";
+    private static final String NEW_AUTHOR_ID = "book.newAuthorId";
+    private static final String WRONG_AUTHOR_ID = "book.wrongAuthorId";
+    private static final String NEW_GENRE_ID = "book.newGenreId";
+    private static final String WRONG_GENRE_ID = "book.wrongGenreId";
+    private static final String NEW_BOOK_SUCCESS = "book.newBookSuccess";
+    private static final String NEW_BOOK_ERROR = "book.newBookError";
+    private static final String BOOK_WRONG_ID = "book.wrongId";
+    private static final String DELETE_SUCCESS = "book.deleteSuccess";
+    private static final String ENTER_NUMBER = "book.enterNumber";
+    private static final String COMMAND_END = "END";
+    private static final String COMMENT_NEW = "comment.newComment";
+    private static final String COMMENT_NEW_SUCCESS = "comment.newSuccess";
+    private static final String COMMENT_NEW_ERROR = "comment.newCommentError";
+    private static final String COMMENT_DEL = "comment.delComment";
+    private static final String COMMENT_DEL_SUCCESS = "comment.delSuccess";
+    private static final String COMMENT_DEL_WRONG_ID = "comment.delCommentWrongId";*/
 
-    void showAll();
+/*    private ConsoleService consoleService;
+    private MessageService messageService;*/
+    private DBService dbService;
 
-    void getById(String id);
+    public BookController(DBService dbService) {
+        this.dbService = dbService;
+    }
 
-    void delete(String id);
 
+    @GetMapping("/book-list")
+    public String getBookList(Model model) {
+        List<Book> bookList = dbService.getAllBook();
+        model.addAttribute("books", bookList);
+        return "book-list";
+    }
+
+
+
+/*    public void addBook() {
+        Book newBook = new Book();
+        consoleService.printServiceMessage(NEW_NAME);
+        newBook.setName(consoleService.getString());
+
+        String tempString;
+
+        while(true) {
+            dbService.getAllAuthor().forEach(s -> consoleService.printString(s.toString()));
+            consoleService.printServiceMessage(NEW_AUTHOR_ID);
+            tempString = consoleService.getString();
+            if (COMMAND_END.equals(tempString)) return;
+            if (tempString == null) continue;
+
+            val tempAuthor = dbService.getAuthorById(tempString);
+
+            if (tempAuthor != null) {
+               newBook.setAuthor(tempAuthor);
+               break;
+            } else {
+                consoleService.printServiceMessage(WRONG_AUTHOR_ID);
+            }
+        }
+
+        while (true) {
+            dbService.getAllGenre().forEach(s -> consoleService.printString(s.toString()));
+            consoleService.printServiceMessage(NEW_GENRE_ID);
+            tempString = consoleService.getString();
+            if (COMMAND_END.equals(tempString)) return;
+            if (tempString == null) continue;
+
+            val tempGenre = dbService.getGenreById(tempString);
+
+            if (tempGenre != null) {
+                newBook.setGenre(tempGenre);
+                break;
+            } else {
+                consoleService.printServiceMessage(WRONG_GENRE_ID);
+            }
+
+        }
+
+        dbService.insertBook(newBook);
+        consoleService.printServiceMessage(NEW_BOOK_SUCCESS);
+
+    }
+
+    public void addCommentToBook(String id) {
+        if (id == null) return;
+
+        val tmpBook = dbService.getBookById(id);
+
+        if (tmpBook == null) {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
+            return;
+        }
+
+        consoleService.printString(messageService.getMessage(COMMENT_NEW));
+        val newComment = new Comment(consoleService.getString());
+
+        tmpBook.getComments().add(newComment);
+        dbService.updateBook(tmpBook);
+        consoleService.printServiceMessage(COMMENT_NEW_SUCCESS);
+
+    }
+
+    public void deleteCommentFromBook(String id) {
+        if (id == null) return;
+
+        Book tmpBook = dbService.getBookById(id);
+
+        if (tmpBook == null) {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
+            return;
+        }
+
+        consoleService.printString(tmpBook.toString());
+
+        tmpBook.getComments().forEach(c -> consoleService.printString(c.toString()));
+
+        consoleService.printServiceMessage(COMMENT_DEL);
+
+        String commentId = consoleService.getString();
+        if (commentId == null) return;
+
+        boolean result = tmpBook.getComments().removeIf( s -> s.getId().toString().equals(commentId));
+
+        if (result) {
+            dbService.updateBook(tmpBook);
+            consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
+        } else {
+            consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
+        }
+
+    }
+
+    public void showAll() {
+        dbService.getAllBook().forEach(b -> consoleService.printString(b.toString()));
+    }
+
+    public void getById(String id) {
+
+        if (id == null) return;
+
+        Book tmpBook = dbService.getBookById(id);
+
+        if (tmpBook != null) {
+            consoleService.printString(tmpBook.toString());
+            //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
+        } else {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
+        }
+    }
+
+    public void delete(String id) {
+        if (id == null) return;
+
+        if (dbService.deleteBookById(id)) {
+            consoleService.printServiceMessage(DELETE_SUCCESS);
+        } else {
+            consoleService.printServiceMessage(BOOK_WRONG_ID);
+        }
+    }*/
 }

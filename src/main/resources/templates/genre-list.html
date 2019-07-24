@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Genre list</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" >
+</head>
+<body>
+<h1>Жанры:</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="list" th:each="genre : ${genres}">
+        <td th:text="${genre.id}">1</td>
+        <td th:text="${genre.name}">John Doe</td>
+        <td>
+            <a href="author-edit.html" th:href="@{/edit(id=${genre.id})}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

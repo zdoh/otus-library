@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" >
+</head>
+<body>
+
+<h1>Книги:</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Имя автора</th>
+        <th>Жанр</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="list" th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.name}">Акарубма</td>
+        <td th:text="${book.author.name}">John Doe</td>
+        <td th:text="${book.genre.name}">фантастика</td>
+        <td>
+            <a href="author-edit.html" th:href="@{/edit(id=${book.id})}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
