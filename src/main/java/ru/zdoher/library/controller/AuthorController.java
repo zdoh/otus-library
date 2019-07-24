@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.exception.NotFoundException;
-import ru.zdoher.library.repositories.AuthorRepository;
-import ru.zdoher.library.repositories.BookRepository;
 import ru.zdoher.library.service.DBService;
 
 import java.util.List;

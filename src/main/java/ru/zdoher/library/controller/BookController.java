@@ -1,20 +1,14 @@
 package ru.zdoher.library.controller;
 
-import lombok.val;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
 import ru.zdoher.library.exception.NotFoundException;
-import ru.zdoher.library.repositories.AuthorRepository;
-import ru.zdoher.library.repositories.BookRepository;
-import ru.zdoher.library.repositories.GenreRepository;
 import ru.zdoher.library.service.*;
 
 import java.util.List;

@@ -4,7 +4,6 @@ package ru.zdoher.library.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import lombok.val;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;

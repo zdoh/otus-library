@@ -2,11 +2,9 @@ package ru.zdoher.library.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.service.DBService;
@@ -21,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("Class AuthorController")
 @WebMvcTest(AuthorController.class)
-@RunWith(SpringRunner.class)
 class AuthorControllerTest {
     private static final String AUTHOR1 = "author1";
     private static final String AUTHOR2 = "author2";
