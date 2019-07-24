@@ -10,8 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.zdoher.library.repositories.AuthorRepository;
 import ru.zdoher.library.domain.Author;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,6 +19,10 @@ import static org.mockito.Mockito.*;
 @DisplayName("Class AuthorService")
 @SpringBootTest(classes = AuthorServiceImpl.class)
 class AuthorServiceImplTest {
+    private static final String FIRST = "1";
+    private static final String SECOND = "2";
+    private static final String THIRD = "3";
+    private static int authorCount;
 
     @MockBean
     private AuthorRepository authorRepository;
@@ -27,7 +30,7 @@ class AuthorServiceImplTest {
     @Autowired
     private AuthorService authorService;
 
-    private HashMap<Long, Author> authorHashMap;
+    private HashMap<String, Author> authorHashMap;
 
 
     @BeforeEach
@@ -35,30 +38,74 @@ class AuthorServiceImplTest {
         authorService = new AuthorServiceImpl(authorRepository);
 
         authorHashMap = new HashMap<>();
-        authorHashMap.put(1L, new Author("author1"));
-        authorHashMap.put(2L, new Author("author2"));
+        authorHashMap.put(FIRST, new Author(FIRST, "author1"));
+        authorHashMap.put(SECOND, new Author(SECOND,"author2"));
 
+        authorCount = authorHashMap.size();
     }
 
     @Test
-    @DisplayName(" get by id correct")
+    @DisplayName(" get by id - correct")
     void authorGetById() {
-        when(authorRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(authorHashMap.get(1L)));
+        when(authorRepository.findById(FIRST)).thenReturn(java.util.Optional.ofNullable(authorHashMap.get(FIRST)));
 
         assertAll(
-                () -> assertEquals("author1", authorService.getById(1L).getName())
+                () -> assertEquals("author1", authorService.getById("1").getName())
         );
     }
 
     @Test
-    @DisplayName(" get by null correct")
+    @DisplayName(" get by null - correct")
     void authorGetNull() {
-        when(authorRepository.findById(3L)).thenReturn(Optional.empty());
+        when(authorRepository.findById(THIRD)).thenReturn(Optional.empty());
 
         assertAll(
-                () -> assertNull(authorService.getById(3L))
+                () -> assertNull(authorService.getById(THIRD))
         );
 
     }
+
+    @Test
+    @DisplayName(" get all - correct ")
+    void authorGetAll(){
+        when(authorRepository.findAll()).thenReturn(new ArrayList<>(authorHashMap.values()));
+
+        assertAll(
+                () -> assertEquals(authorCount, authorService.getAll().size())
+        );
+    }
+
+    @Test
+    @DisplayName(" delete by exist id - correct")
+    void authorDeleteByExistId() {
+        when(authorRepository.existsById(FIRST)).thenReturn(true);
+        doNothing().when(authorRepository).deleteById(FIRST);
+
+        authorService.deleteById(FIRST);
+
+        verify(authorRepository,times(1)).deleteById(any(String.class));
+    }
+
+    @Test
+    @DisplayName(" delete by dont exist id - correct")
+    void authorDeleteByNotExistId() {
+        doNothing().when(authorRepository).deleteById(FIRST);
+
+        authorService.deleteById(FIRST);
+
+        verify(authorRepository, times(1)).existsById(any(String.class));
+        verify(authorRepository,times(0)).deleteById(any(String.class));
+    }
+
+    @Test
+    @DisplayName(" update by id - correct")
+    void authorUpdateById() {
+        when(authorRepository.save(any(Author.class))).thenReturn(null);
+
+        authorService.update(new Author(FIRST));
+
+        verify(authorRepository, times(1)).save(any(Author.class));
+    }
+
 
 }

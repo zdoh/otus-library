@@ -1,11 +1,13 @@
 package ru.zdoher.library.controller;
 
 
+import lombok.val;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.service.ConsoleService;
 import ru.zdoher.library.service.DBService;
 import ru.zdoher.library.service.MessageService;
+
 
 @Service
 public class AuthorControllerImpl implements AuthorController {
@@ -33,7 +35,7 @@ public class AuthorControllerImpl implements AuthorController {
     @Override
     public void addAuthor() {
         consoleService.printServiceMessage(NEW_QUESTION);
-        String newAuthorName = consoleService.getString();
+        val newAuthorName = consoleService.getString();
         dbService.insertAuthor(new Author(newAuthorName));
         consoleService.printServiceMessage(NEW_SUCCESS);
     }
@@ -58,23 +60,18 @@ public class AuthorControllerImpl implements AuthorController {
             if (DELETE_NO.equals(decision)) return;
         } while (!DELETE_YES.equals(decision));
 
-        Long longId = correctId(id);
-        if (longId == null) return;
-
-        if (dbService.deleteAuthorById(longId)) {
+        if (dbService.deleteAuthorById(id)) {
             consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);
         }
-
     }
 
     @Override
     public void update(String id) {
-        Long longId = correctId(id);
-        if (longId == null) return;
+        if (id == null) return;
 
-        Author tempAuthor = dbService.getAuthorById(longId);
+        val tempAuthor = dbService.getAuthorById(id);
 
         if (tempAuthor != null) {
             consoleService.printServiceMessage(NEW_NAME);
@@ -84,17 +81,5 @@ public class AuthorControllerImpl implements AuthorController {
         } else {
             consoleService.printServiceMessage(WRONG_ID);
         }
-
     }
-
-    private Long correctId(String id) {
-        try {
-            return Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            consoleService.printServiceMessage(WRONG_ID_NAME);
-        }
-
-        return null;
-    }
-
 }

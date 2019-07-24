@@ -8,13 +8,13 @@ public interface AuthorService {
 
     List<Author> getAll();
 
-    Author getById(Long id);
+    Author getById(String id);
 
-    boolean deleteById(Long id);
+    boolean deleteById(String id);
 
     void insert(Author author);
 
     void update(Author author);
 
-    boolean isExist(Long id);
+    boolean isExist(String id);
 }

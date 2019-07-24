@@ -2,7 +2,6 @@ package ru.zdoher.library.service;
 
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
-import ru.zdoher.library.domain.Comment;
 import ru.zdoher.library.domain.Genre;
 
 import java.util.List;
@@ -15,40 +14,37 @@ public interface DBService {
 
     List<Book> getAllBook();
 
-    List<Comment> getAllCommentForBook(Book book);
+    boolean authorIsExist(String id);
 
-    boolean authorIsExist(Long id);
+    boolean genreIsExist(String id);
 
-    boolean genreIsExist(Long id);
+    Author getAuthorById(String id);
 
-    boolean commentInBookExist(Long id, Long bookId);
+    Genre getGenreById(String id);
 
-    Author getAuthorById(Long id);
-
-    Genre getGenreById(Long id);
-
-    Book getBookById(Long id);
+    Book getBookById(String id);
 
     void insertBook(Book book);
-
-    void insertComment(Comment comment);
 
     void insertAuthor(Author author);
 
     void insertGenre(Genre genre);
 
-    void deleteCommentById(Long id);
+    boolean deleteBookById(String id);
 
-    boolean deleteBookById(Long id);
+    boolean deleteAuthorById(String id);
 
-    boolean deleteAuthorById(Long id);
+    boolean deleteGenreById(String id);
 
-    boolean deleteGenreById(Long id);
+    /*boolean deleteCommentById(String bookId, String commentId);*/
 
     void updateAuthor(Author author);
 
     void updateGenre(Genre genre);
 
-    boolean bookIsExist(Long id);
+    void updateBook(Book book);
+
+    boolean bookIsExist(String id);
+
 
 }

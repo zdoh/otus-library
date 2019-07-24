@@ -1,5 +1,6 @@
 package ru.zdoher.library.controller;
 
+import lombok.val;
 import org.springframework.stereotype.Service;
 import ru.zdoher.library.domain.Genre;
 import ru.zdoher.library.service.ConsoleService;
@@ -18,7 +19,6 @@ public class GenreControllerImpl implements GenreController {
     private static final String CHANGE_SUCCESS = "genre.changeSuccess";
     private static final String WRONG_ID_NAME = "genre.wrongIdName";
 
-    //private GenreService genreService;
     private ConsoleService consoleService;
     private MessageService messageService;
     private DBService dbService;
@@ -56,23 +56,18 @@ public class GenreControllerImpl implements GenreController {
             if (DELETE_NO.equals(decision)) return;
         } while (!DELETE_YES.equals(decision));
 
-        Long longId = correctId(id);
-        if (longId == null) return;
-
-        if (dbService.deleteGenreById(longId)) {
+        if (dbService.deleteGenreById(id)) {
             consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);
         }
-
     }
 
     @Override
     public void update(String id) {
-        Long longId = correctId(id);
-        if (longId == null) return;
+        if (id == null) return;
 
-        Genre tmpGenre = dbService.getGenreById(longId);
+        val tmpGenre = dbService.getGenreById(id);
 
         if (tmpGenre != null) {
             consoleService.printServiceMessage(NEW_NAME);
@@ -82,16 +77,5 @@ public class GenreControllerImpl implements GenreController {
         } else {
             consoleService.printServiceMessage(WRONG_ID);
         }
-
-    }
-
-    private Long correctId(String id) {
-        try {
-            return Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            consoleService.printServiceMessage(WRONG_ID_NAME);
-        }
-
-        return null;
     }
 }

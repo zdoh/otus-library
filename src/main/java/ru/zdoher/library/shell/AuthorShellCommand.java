@@ -13,11 +13,6 @@ public class AuthorShellCommand {
         this.authorController = authorController;
     }
 
-    /*@ShellMethod("Command to count")
-    public void count() {
-        System.out.println(authorController.count());
-    }*/
-
     @ShellMethod("Command to show all")
     public void authorShowAll() {
         authorController.showAll();
@@ -28,12 +23,12 @@ public class AuthorShellCommand {
         authorController.addAuthor();
     }
 
-    @ShellMethod("Delete author by id. Use: author-delete id")
+    @ShellMethod("Delete author by id. Use: author-delete №")
     public void authorDelete(@ShellOption String id) {
         authorController.deleteById(id);
     }
 
-    @ShellMethod("Rename author by id. Use: author-rename id")
+    @ShellMethod("Rename author by id. Use: author-rename №")
     public void authorRename(@ShellOption String id) {
         authorController.update(id);
     }
