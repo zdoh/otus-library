@@ -76,14 +76,25 @@ class AuthorServiceImplTest {
     }
 
     @Test
-    @DisplayName(" delete by id - correct")
-    void authorDeleteById() {
+    @DisplayName(" delete by exist id - correct")
+    void authorDeleteByExistId() {
         when(authorRepository.existsById(FIRST)).thenReturn(true);
         doNothing().when(authorRepository).deleteById(FIRST);
 
         authorService.deleteById(FIRST);
 
         verify(authorRepository,times(1)).deleteById(any(String.class));
+    }
+
+    @Test
+    @DisplayName(" delete by dont exist id - correct")
+    void authorDeleteByNotExistId() {
+        doNothing().when(authorRepository).deleteById(FIRST);
+
+        authorService.deleteById(FIRST);
+
+        verify(authorRepository, times(1)).existsById(any(String.class));
+        verify(authorRepository,times(0)).deleteById(any(String.class));
     }
 
     @Test
@@ -95,4 +106,6 @@ class AuthorServiceImplTest {
 
         verify(authorRepository, times(1)).save(any(Author.class));
     }
+
+
 }

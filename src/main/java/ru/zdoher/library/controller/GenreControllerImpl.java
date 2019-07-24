@@ -56,7 +56,7 @@ public class GenreControllerImpl implements GenreController {
             if (DELETE_NO.equals(decision)) return;
         } while (!DELETE_YES.equals(decision));
 
-        if (dbService.deleteGenreById(decision)) {
+        if (dbService.deleteGenreById(id)) {
             consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);

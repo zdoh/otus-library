@@ -46,6 +46,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public boolean isExist(String id) {
-        return authorRepository.existsById(id);
+        boolean a = authorRepository.existsById(id);
+        System.out.println(id + " - " +a);
+        return a;
     }
 }

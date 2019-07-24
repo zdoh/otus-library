@@ -60,7 +60,7 @@ public class AuthorControllerImpl implements AuthorController {
             if (DELETE_NO.equals(decision)) return;
         } while (!DELETE_YES.equals(decision));
 
-        if (dbService.deleteAuthorById(decision)) {
+        if (dbService.deleteAuthorById(id)) {
             consoleService.printServiceMessage(DEL_SUCCESS);
         } else {
             consoleService.printServiceMessage(WRONG_ID);

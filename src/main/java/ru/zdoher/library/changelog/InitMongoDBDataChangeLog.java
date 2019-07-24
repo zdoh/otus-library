@@ -11,7 +11,7 @@ import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
 import ru.zdoher.library.domain.Genre;
 
-@ChangeLog(order = "002")
+@ChangeLog(order = "000")
 public class InitMongoDBDataChangeLog {
 
     private Author author1;
