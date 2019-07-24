@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataMongoTest
 class GenreRepositoryImplTest {
     private static final String NEW_GENRE_NAME = "genre3";
+
     @Autowired
     private GenreRepository genreRepository;
 

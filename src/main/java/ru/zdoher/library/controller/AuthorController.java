@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.exception.NotFoundException;
 import ru.zdoher.library.repositories.AuthorRepository;
+import ru.zdoher.library.repositories.BookRepository;
 import ru.zdoher.library.service.DBService;
 
 import java.util.List;
@@ -33,48 +33,50 @@ public class AuthorController {
 
  */
 
-    private AuthorRepository authorRepository;
+    private DBService dbService;
 
-    public AuthorController(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
+    public AuthorController(DBService dbService) {
+        this.dbService = dbService;
     }
 
     @GetMapping("/author-list")
     public String authorList(Model model) {
-        List<Author> authorList = authorRepository.findAll();
+        List<Author> authorList = dbService.getAllAuthor();
         model.addAttribute("authors", authorList);
+        model.addAttribute("author", new Author());
         return "author-list";
     }
 
     @GetMapping("/author-delete")
     public String authorDelete(@RequestParam("id") String id) {
-        authorRepository.deleteById(id);
+        if (dbService.authorDontHaveBookById(id)) {
+            dbService.deleteAuthorById(id);
+        }
+
+        // HELP!!! тут не знаю как отправить сообщение, чтобы в html упало о том что у автора есть книги
+        // поэтому удалить нельзя.
+
         return "redirect:/author-list";
     }
 
 
     @GetMapping("/author-edit")
     public String authorEdit(@RequestParam("id") String id, Model model) {
-        Author author = authorRepository.findById(id).orElseThrow(NotFoundException::new);
+        Author author = dbService.getAuthorById(id);
+        if (author == null) throw new NotFoundException();
         model.addAttribute("author", author);
         return "author-edit";
     }
 
     @PostMapping("/author-edit")
     public String authorEditPost(Author author) {
-        authorRepository.save(author);
+        dbService.updateAuthor(author);
         return "redirect:/author-list";
-    }
-
-    @GetMapping("/author-new")
-    public String authorNew(Model model) {
-        model.addAttribute("author", new Author());
-        return "author-edit";
     }
 
     @PostMapping("/author-new")
     public String authorNewPost(Author author) {
-        authorRepository.insert(author);
+        dbService.insertAuthor(author);
         return "redirect:/author-list";
     }
 

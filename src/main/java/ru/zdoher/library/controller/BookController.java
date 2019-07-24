@@ -5,14 +5,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.domain.Book;
 import ru.zdoher.library.domain.Comment;
+import ru.zdoher.library.exception.NotFoundException;
+import ru.zdoher.library.repositories.AuthorRepository;
+import ru.zdoher.library.repositories.BookRepository;
+import ru.zdoher.library.repositories.GenreRepository;
 import ru.zdoher.library.service.*;
 
 import java.util.List;
 
 
 @Controller
+// поставил аннотацию, тк у меня при редактирование book не сохранялись данные comments
+@SessionAttributes("book")
 public class BookController {
 /*    private static final String NEW_NAME = "book.newName";
     private static final String NEW_AUTHOR_ID = "book.newAuthorId";
@@ -32,145 +42,76 @@ public class BookController {
     private static final String COMMENT_DEL_SUCCESS = "comment.delSuccess";
     private static final String COMMENT_DEL_WRONG_ID = "comment.delCommentWrongId";*/
 
-/*    private ConsoleService consoleService;
-    private MessageService messageService;*/
     private DBService dbService;
 
     public BookController(DBService dbService) {
         this.dbService = dbService;
     }
 
-
     @GetMapping("/book-list")
-    public String getBookList(Model model) {
+    public String bookList(Model model) {
         List<Book> bookList = dbService.getAllBook();
         model.addAttribute("books", bookList);
         return "book-list";
     }
 
-
-
-/*    public void addBook() {
-        Book newBook = new Book();
-        consoleService.printServiceMessage(NEW_NAME);
-        newBook.setName(consoleService.getString());
-
-        String tempString;
-
-        while(true) {
-            dbService.getAllAuthor().forEach(s -> consoleService.printString(s.toString()));
-            consoleService.printServiceMessage(NEW_AUTHOR_ID);
-            tempString = consoleService.getString();
-            if (COMMAND_END.equals(tempString)) return;
-            if (tempString == null) continue;
-
-            val tempAuthor = dbService.getAuthorById(tempString);
-
-            if (tempAuthor != null) {
-               newBook.setAuthor(tempAuthor);
-               break;
-            } else {
-                consoleService.printServiceMessage(WRONG_AUTHOR_ID);
-            }
-        }
-
-        while (true) {
-            dbService.getAllGenre().forEach(s -> consoleService.printString(s.toString()));
-            consoleService.printServiceMessage(NEW_GENRE_ID);
-            tempString = consoleService.getString();
-            if (COMMAND_END.equals(tempString)) return;
-            if (tempString == null) continue;
-
-            val tempGenre = dbService.getGenreById(tempString);
-
-            if (tempGenre != null) {
-                newBook.setGenre(tempGenre);
-                break;
-            } else {
-                consoleService.printServiceMessage(WRONG_GENRE_ID);
-            }
-
-        }
-
-        dbService.insertBook(newBook);
-        consoleService.printServiceMessage(NEW_BOOK_SUCCESS);
-
+    @GetMapping("/book-edit")
+    public String bookEdit(@RequestParam("id") String id, Model model) {
+        Book book = dbService.getBookById(id);
+        if (book == null) throw new NotFoundException();
+        model.addAttribute("book", book);
+        model.addAttribute("genres", dbService.getAllGenre());
+        model.addAttribute("authors", dbService.getAllAuthor());
+        return "book-edit";
     }
 
-    public void addCommentToBook(String id) {
-        if (id == null) return;
-
-        val tmpBook = dbService.getBookById(id);
-
-        if (tmpBook == null) {
-            consoleService.printServiceMessage(BOOK_WRONG_ID);
-            return;
-        }
-
-        consoleService.printString(messageService.getMessage(COMMENT_NEW));
-        val newComment = new Comment(consoleService.getString());
-
-        tmpBook.getComments().add(newComment);
-        dbService.updateBook(tmpBook);
-        consoleService.printServiceMessage(COMMENT_NEW_SUCCESS);
-
+    @PostMapping("/book-edit")
+    public String bookEditPost(Book book) {
+        dbService.updateBook(book);
+        return "redirect:/book-list";
     }
 
-    public void deleteCommentFromBook(String id) {
-        if (id == null) return;
-
-        Book tmpBook = dbService.getBookById(id);
-
-        if (tmpBook == null) {
-            consoleService.printServiceMessage(BOOK_WRONG_ID);
-            return;
-        }
-
-        consoleService.printString(tmpBook.toString());
-
-        tmpBook.getComments().forEach(c -> consoleService.printString(c.toString()));
-
-        consoleService.printServiceMessage(COMMENT_DEL);
-
-        String commentId = consoleService.getString();
-        if (commentId == null) return;
-
-        boolean result = tmpBook.getComments().removeIf( s -> s.getId().toString().equals(commentId));
-
-        if (result) {
-            dbService.updateBook(tmpBook);
-            consoleService.printServiceMessage(COMMENT_DEL_SUCCESS);
-        } else {
-            consoleService.printServiceMessage(COMMENT_DEL_WRONG_ID);
-        }
-
+    @GetMapping("/book-new")
+    public String bookNewGet(Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("genres", dbService.getAllGenre());
+        model.addAttribute("authors", dbService.getAllAuthor());
+        return "book-new";
     }
 
-    public void showAll() {
-        dbService.getAllBook().forEach(b -> consoleService.printString(b.toString()));
+    @PostMapping("/book-new")
+    public String bookNewPost(Book book) {
+        dbService.insertBook(book);
+        return "redirect:/book-list";
     }
 
-    public void getById(String id) {
-
-        if (id == null) return;
-
-        Book tmpBook = dbService.getBookById(id);
-
-        if (tmpBook != null) {
-            consoleService.printString(tmpBook.toString());
-            //dbService.getAllCommentForBook(tmpBook).forEach(c -> consoleService.printString(c.toString()));
-        } else {
-            consoleService.printServiceMessage(BOOK_WRONG_ID);
-        }
+    @GetMapping("/book-delete")
+    public String bookDelete(@RequestParam("id") String id) {
+        dbService.deleteBookById(id);
+        return "redirect:/book-list";
     }
 
-    public void delete(String id) {
-        if (id == null) return;
+    @GetMapping("/comment-delete")
+    public String bookCommentDelete(@RequestParam("book_id") String bookId,
+                                    @RequestParam("comment_id") String commentId) {
+        System.out.println("2");
+        Book book = dbService.getBookById(bookId);
+        if (book == null) throw new NotFoundException();
+        book.getComments().removeIf( c -> c.getId().toString().equals(commentId));
+        dbService.updateBook(book);
+        return "redirect:/book-edit?id=" + bookId;
+    }
 
-        if (dbService.deleteBookById(id)) {
-            consoleService.printServiceMessage(DELETE_SUCCESS);
-        } else {
-            consoleService.printServiceMessage(BOOK_WRONG_ID);
-        }
-    }*/
+    @PostMapping("/comment-new")
+    public String bookCommenNew(@RequestParam("book_id") String bookId,
+                                    @RequestParam("new_comment") String new_comment) {
+
+        System.out.println(bookId + " " + new_comment);
+        Book book = dbService.getBookById(bookId);
+        if (book == null) throw new NotFoundException();
+        book.getComments().add(new Comment(new_comment));
+        dbService.updateBook(book);
+        return "redirect:/book-edit?id=" + bookId;
+    }
+
 }

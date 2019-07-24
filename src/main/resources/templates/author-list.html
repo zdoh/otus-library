@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Author list</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" >
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
+<a href="/" th:href="@{/}">вернуться</a>
 <h1>Авторы:</h1>
-<a href="author-edit.html" th:href="@{/author-new}">New author</a>
+<form id="create-form" th:action="@{/author-new}" th:method="post" action="author-new">
+    <div class="row">
+        <label for="holder-input">Имя нового автора Имя:</label>
+        <input id="holder-input" name="name" type="text" th:value="${author.name}" value="John Doe"/>
+        <button type="submit">Добавить</button>
+    </div>
+</form>
 
 <table>
     <thead>
@@ -24,8 +31,6 @@
         <td>
             <a href="author-edit.html" th:href="@{/author-edit(id=${author.id})}">Edit</a>
             <a href="author-list.html" th:href="@{/author-delete(id=${author.id})}">Delete</a>
-        </td>
-        <td>
         </td>
     </tr>
     </tbody>

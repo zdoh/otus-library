@@ -5,7 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.zdoher.library.domain.Genre;
+import ru.zdoher.library.exception.NotFoundException;
+import ru.zdoher.library.repositories.BookRepository;
+import ru.zdoher.library.repositories.GenreRepository;
 import ru.zdoher.library.service.ConsoleService;
 import ru.zdoher.library.service.DBService;
 import ru.zdoher.library.service.MessageService;
@@ -28,63 +33,48 @@ public class GenreController {
     private MessageService messageService;*/
     private DBService dbService;
 
-
     public GenreController(DBService dbService) {
         this.dbService = dbService;
     }
 
-
     @GetMapping("/genre-list")
-    public String getGenreList(Model model) {
+    public String genreList(Model model) {
         List<Genre> genreList = dbService.getAllGenre();
         model.addAttribute("genres", genreList);
+        model.addAttribute("genre", new Genre());
         return "genre-list";
     }
 
-
-/*
-    public void addGenre() {
-        consoleService.printServiceMessage(NEW_NAME);
-        String newGenreName = consoleService.getString();
-        dbService.insertGenre(new Genre(newGenreName));
-        consoleService.printServiceMessage(NEW_SUCCESS);
-    }
-
-    public void showAll() {
-        dbService.getAllGenre().forEach(g -> consoleService.printString(g.toString()));
-    }
-
-    public void deleteById(String id) {
-        String decision;
-
-        do {
-            String fullDelAttentionMes = messageService.getMessage(DEL_ATTENTION) + " ("
-                    + messageService.getMessage(DELETE_YES) + "/"
-                    + messageService.getMessage(DELETE_NO) + "):";
-            consoleService.printString(fullDelAttentionMes);
-            decision = consoleService.getString();
-            if (DELETE_NO.equals(decision)) return;
-        } while (!DELETE_YES.equals(decision));
-
-        if (dbService.deleteGenreById(id)) {
-            consoleService.printServiceMessage(DEL_SUCCESS);
-        } else {
-            consoleService.printServiceMessage(WRONG_ID);
+    @GetMapping("/genre-delete")
+    public String genreDelete(@RequestParam("id") String id) {
+        if (dbService.genreDontHaveBookById(id)) {
+            dbService.deleteGenreById(id);
         }
+
+        // HELP!!! тут не знаю как отправить сообщение, чтобы в html упало о том что у автора есть книги
+        // поэтому удалить нельзя.
+
+        return "redirect:/genre-list";
     }
 
-    public void update(String id) {
-        if (id == null) return;
 
-        val tmpGenre = dbService.getGenreById(id);
+    @GetMapping("/genre-edit")
+    public String genreEdit(@RequestParam("id") String id, Model model) {
+        Genre genre = dbService.getGenreById(id);
+        if (genre == null) throw new NotFoundException();
+        model.addAttribute("genre", genre);
+        return "genre-edit";
+    }
 
-        if (tmpGenre != null) {
-            consoleService.printServiceMessage(NEW_NAME);
-            tmpGenre.setName(consoleService.getString());
-            dbService.updateGenre(tmpGenre);
-            consoleService.printServiceMessage(CHANGE_SUCCESS);
-        } else {
-            consoleService.printServiceMessage(WRONG_ID);
-        }
-    }*/
+    @PostMapping("/genre-edit")
+    public String genreEditPost(Genre genre) {
+        dbService.updateGenre(genre);
+        return "redirect:/genre-list";
+    }
+
+    @PostMapping("/genre-new")
+    public String genreNewPost(Genre genre) {
+        dbService.insertGenre(genre);
+        return "redirect:/genre-list";
+    }
 }

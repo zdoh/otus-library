@@ -6,4 +6,7 @@ import ru.zdoher.library.domain.Book;
 
 @Repository
 public interface BookRepository extends MongoRepository<Book, String> {
+    int countBookByAuthorId(String id);
+    int countBookByGenreId(String id);
+
 }

@@ -32,7 +32,7 @@
 <a href="/book-list" th:href="@{/book-list}">вернуться</a>
 <h1>Book Info:</h1>
 
-<form id="edit-form" th:action="@{/book-edit(id=${book.id})}" th:object="${book}" th:method="post" action="book-edit">
+<form id="edit-form" th:action="@{/book-new}" th:object="${book}" th:method="post" action="book-new">
 
     <div class="row">
         <label for="name-input">Name:</label>
@@ -56,36 +56,6 @@
     <div class="row">
         <button type="submit">Save</button>
     </div>
-</form>
-
-    <h2>Комментарии:</h2>
-
-    <form id="new-comment-form" th:action="@{/comment-new}" th:method="post" action="comment-new">
-        <div class="row">
-            <input type="hidden" name="book_id" th:value="${book.id}">
-            <label for="new-comment-input">Новый комментарий:</label>
-            <input id="new-comment-input" name="new_comment" type="text" value="new_comment"/>
-            <button type="submit">Добавить</button>
-        </div>
-    </form>
-<form>
-    <table>
-        <thead>
-        <tr>
-            <th>Комментарий</th>
-            <th>Действие</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="comments" th:each="comment : *{book.comments}" >
-            <td th:text="${comment.comment}">Акарубма</td>
-            <td>
-                <a href="book-edit.html" th:href="@{/comment-delete(book_id=${book.id}, comment_id=${comment.id})}">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
 </form>
 </body>
 </html>

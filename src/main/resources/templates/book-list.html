@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" >
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-
+<a href="/" th:href="@{/}">вернуться</a>
 <h1>Книги:</h1>
-
+<a href="book-edit.html" th:href="@{/book-new}">New book</a>
 <table>
     <thead>
     <tr>
@@ -16,6 +16,7 @@
         <th>Название</th>
         <th>Имя автора</th>
         <th>Жанр</th>
+        <th>Кол-во <br> комментарией</th>
         <th>Действие</th>
     </tr>
     </thead>
@@ -25,8 +26,10 @@
         <td th:text="${book.name}">Акарубма</td>
         <td th:text="${book.author.name}">John Doe</td>
         <td th:text="${book.genre.name}">фантастика</td>
+        <td th:text="${book.getComments().size()}">много</td>
         <td>
-            <a href="author-edit.html" th:href="@{/edit(id=${book.id})}">Edit</a>
+            <a href="book-edit.html" th:href="@{/book-edit(id=${book.id})}">Edit</a>
+            <a href="book-list.html" th:href="@{/book-delete(id=${book.id})}">Delete</a>
         </td>
     </tr>
     </tbody>
