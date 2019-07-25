@@ -43,14 +43,14 @@ public class BookController {
     }
 
     @GetMapping("/book-list")
-    public String bookList(Model model) {
+    public String listView(Model model) {
         List<Book> bookList = dbService.getAllBook();
         model.addAttribute("books", bookList);
         return "book-list";
     }
 
     @GetMapping("/book-edit")
-    public String bookEdit(@RequestParam("id") String id, Model model) {
+    public String editView(@RequestParam("id") String id, Model model) {
         Book book = dbService.getBookById(id);
         if (book == null) throw new NotFoundException();
         model.addAttribute("book", book);
@@ -60,13 +60,13 @@ public class BookController {
     }
 
     @PostMapping("/book-edit")
-    public String bookEditPost(Book book) {
+    public String edit(Book book) {
         dbService.updateBook(book);
         return "redirect:/book-list";
     }
 
     @GetMapping("/book-new")
-    public String bookNewGet(Model model) {
+    public String newView(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("genres", dbService.getAllGenre());
         model.addAttribute("authors", dbService.getAllAuthor());
@@ -74,19 +74,19 @@ public class BookController {
     }
 
     @PostMapping("/book-new")
-    public String bookNewPost(Book book) {
+    public String add(Book book) {
         dbService.insertBook(book);
         return "redirect:/book-list";
     }
 
-    @GetMapping("/book-delete")
-    public String bookDelete(@RequestParam("id") String id) {
+    @PostMapping("/book-delete")
+    public String delete(@RequestParam("id") String id) {
         dbService.deleteBookById(id);
         return "redirect:/book-list";
     }
 
-    @GetMapping("/comment-delete")
-    public String bookCommentDelete(@RequestParam("book_id") String bookId,
+    @PostMapping("/comment-delete")
+    public String deleteComment(@RequestParam("book_id") String bookId,
                                     @RequestParam("comment_id") String commentId) {
         System.out.println("2");
         Book book = dbService.getBookById(bookId);
@@ -97,7 +97,7 @@ public class BookController {
     }
 
     @PostMapping("/comment-new")
-    public String bookCommenNew(@RequestParam("book_id") String bookId,
+    public String addComment(@RequestParam("book_id") String bookId,
                                     @RequestParam("new_comment") String new_comment) {
 
         System.out.println(bookId + " " + new_comment);

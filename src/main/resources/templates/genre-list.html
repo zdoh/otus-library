@@ -16,6 +16,8 @@
     </div>
 </form>
 
+<p th:if="${showDelMess == true}" style="color:red">У жанра есть связанные книги, удалите сперва жанр</p>
+
 <table>
     <thead>
     <tr>
@@ -29,8 +31,14 @@
         <td th:text="${genre.id}">1</td>
         <td th:text="${genre.name}">Bambukus</td>
         <td>
-            <a href="genre-edit.html" th:href="@{/genre-edit(id=${genre.id})}">Edit</a>
-            <a href="genre-list.html" th:href="@{/genre-delete(id=${genre.id})}">Delete</a>
+            <form th:action="@{/genre-edit(id=${genre.id})}" method="get" action="/genre-edit">
+                <input type="hidden" th:value="${genre.id}" name="id"/>
+                <button type="submit">Edit</button>
+            </form>
+            <form th:action="@{/genre-delete}" method="post" action="/genre-delete">
+                <input type="hidden" th:value="${genre.id}" name="id"/>
+                <button type="submit">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>

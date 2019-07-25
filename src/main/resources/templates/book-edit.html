@@ -80,7 +80,12 @@
         <tr class="comments" th:each="comment : *{book.comments}" >
             <td th:text="${comment.comment}">Акарубма</td>
             <td>
-                <a href="book-edit.html" th:href="@{/comment-delete(book_id=${book.id}, comment_id=${comment.id})}">Delete</a>
+                <!--<a href="book-edit.html" th:href="@{/comment-delete(book_id=${book.id}, comment_id=${comment.id})}">Delete</a>-->
+                <form th:action="@{/comment-delete}" method="post" action="/comment-delete">
+                    <input type="hidden" th:value="${book.id}" name="book_id"/>
+                    <input type="hidden" th:value="${comment.id}" name="comment_id"/>
+                    <button type="submit">Delete</button>
+                </form>
             </td>
         </tr>
         </tbody>

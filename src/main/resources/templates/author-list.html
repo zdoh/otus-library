@@ -16,6 +16,8 @@
     </div>
 </form>
 
+<p th:if="${showDelMess == true}" style="color:red">У автора есть связанные книги, удалите сперва книги</p>
+
 <table>
     <thead>
     <tr>
@@ -29,8 +31,14 @@
         <td th:text="${author.id}">1</td>
         <td th:text="${author.name}">John Doe</td>
         <td>
-            <a href="author-edit.html" th:href="@{/author-edit(id=${author.id})}">Edit</a>
-            <a href="author-list.html" th:href="@{/author-delete(id=${author.id})}">Delete</a>
+            <form th:action="@{/author-edit(id=${author.id})}" method="get" action="/author-edit">
+                <input type="hidden" th:value="${author.id}" name="id"/>
+                <button type="submit">Edit</button>
+            </form>
+            <form th:action="@{/author-delete}" method="post" action="/author-delete">
+                <input type="hidden" th:value="${author.id}" name="id"/>
+                <button type="submit">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>

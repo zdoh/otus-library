@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import ru.zdoher.library.exception.NotFoundException;
 import ru.zdoher.library.repositories.AuthorRepository;
 import ru.zdoher.library.domain.Author;
 
@@ -59,9 +60,8 @@ class AuthorServiceImplTest {
     void authorGetNull() {
         when(authorRepository.findById(THIRD)).thenReturn(Optional.empty());
 
-        assertAll(
-                () -> assertNull(authorService.getById(THIRD))
-        );
+        assertThrows(NotFoundException.class,
+                () -> authorService.getById(THIRD));
 
     }
 

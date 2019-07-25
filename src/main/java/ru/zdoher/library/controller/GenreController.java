@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.zdoher.library.domain.Genre;
 import ru.zdoher.library.exception.NotFoundException;
 import ru.zdoher.library.service.DBService;
@@ -32,28 +33,28 @@ public class GenreController {
     }
 
     @GetMapping("/genre-list")
-    public String genreList(Model model) {
+    public String listView(Model model, boolean showDelMess) {
         List<Genre> genreList = dbService.getAllGenre();
         model.addAttribute("genres", genreList);
         model.addAttribute("genre", new Genre());
+        model.addAttribute("showDelMess", showDelMess);
         return "genre-list";
     }
 
-    @GetMapping("/genre-delete")
-    public String genreDelete(@RequestParam("id") String id) {
+    @PostMapping("/genre-delete")
+    public String delete(@RequestParam("id") String id, RedirectAttributes redirectAttributes) {
         if (dbService.genreDontHaveBookById(id)) {
             dbService.deleteGenreById(id);
+        } else {
+            redirectAttributes.addAttribute("showDelMess", true);
         }
-
-        // HELP!!! тут не знаю как отправить сообщение, чтобы в html упало о том что у автора есть книги
-        // поэтому удалить нельзя.
 
         return "redirect:/genre-list";
     }
 
 
     @GetMapping("/genre-edit")
-    public String genreEdit(@RequestParam("id") String id, Model model) {
+    public String editView(@RequestParam("id") String id, Model model) {
         Genre genre = dbService.getGenreById(id);
         if (genre == null) throw new NotFoundException();
         model.addAttribute("genre", genre);
@@ -61,13 +62,13 @@ public class GenreController {
     }
 
     @PostMapping("/genre-edit")
-    public String genreEditPost(Genre genre) {
+    public String edit(Genre genre) {
         dbService.updateGenre(genre);
         return "redirect:/genre-list";
     }
 
     @PostMapping("/genre-new")
-    public String genreNewPost(Genre genre) {
+    public String add(Genre genre) {
         dbService.insertGenre(genre);
         return "redirect:/genre-list";
     }

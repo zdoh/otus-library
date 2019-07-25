@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.zdoher.library.domain.Author;
 import ru.zdoher.library.exception.NotFoundException;
 import ru.zdoher.library.service.DBService;
@@ -38,28 +39,28 @@ public class AuthorController {
     }
 
     @GetMapping("/author-list")
-    public String authorList(Model model) {
+    public String listView(Model model, boolean showDelMess) {
         List<Author> authorList = dbService.getAllAuthor();
         model.addAttribute("authors", authorList);
         model.addAttribute("author", new Author());
+        model.addAttribute("showDelMess", showDelMess);
         return "author-list";
     }
 
-    @GetMapping("/author-delete")
-    public String authorDelete(@RequestParam("id") String id) {
+    @PostMapping("/author-delete")
+    public String delete(@RequestParam("id") String id, RedirectAttributes redirectAttributes) {
         if (dbService.authorDontHaveBookById(id)) {
             dbService.deleteAuthorById(id);
+        } else {
+            redirectAttributes.addAttribute("showDelMess", true);
         }
-
-        // HELP!!! тут не знаю как отправить сообщение, чтобы в html упало о том что у автора есть книги
-        // поэтому удалить нельзя.
 
         return "redirect:/author-list";
     }
 
 
     @GetMapping("/author-edit")
-    public String authorEdit(@RequestParam("id") String id, Model model) {
+    public String editView(@RequestParam("id") String id, Model model) {
         Author author = dbService.getAuthorById(id);
         if (author == null) throw new NotFoundException();
         model.addAttribute("author", author);
@@ -67,13 +68,13 @@ public class AuthorController {
     }
 
     @PostMapping("/author-edit")
-    public String authorEditPost(Author author) {
+    public String edit(Author author) {
         dbService.updateAuthor(author);
         return "redirect:/author-list";
     }
 
     @PostMapping("/author-new")
-    public String authorNewPost(Author author) {
+    public String add(Author author) {
         dbService.insertAuthor(author);
         return "redirect:/author-list";
     }
