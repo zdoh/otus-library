@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Author list</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<a href="/" th:href="@{/}">вернуться</a>
+<h1>Жанры:</h1>
+<form id="create-form" th:action="@{/genre-new}" th:method="post" action="genre-new">
+    <div class="row">
+        <label for="holder-input">Название нового жанра:</label>
+        <input id="holder-input" name="name" type="text" th:value="${genre.name}" value="Bambukus"/>
+        <button type="submit">Добавить</button>
+    </div>
+</form>
+
+<p th:if="${showDelMess == true}" style="color:red">У жанра есть связанные книги, удалите сперва книги</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="list" th:each="genre : ${genres}">
+        <td th:text="${genre.id}">1</td>
+        <td th:text="${genre.name}">Bambukus</td>
+        <td>
+            <form th:action="@{/genre-edit(id=${genre.id})}" method="get" action="/genre-edit">
+                <input type="hidden" th:value="${genre.id}" name="id"/>
+                <button type="submit">Edit</button>
+            </form>
+            <form th:action="@{/genre-delete}" method="post" action="/genre-delete">
+                <input type="hidden" th:value="${genre.id}" name="id"/>
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>

@@ -110,4 +110,14 @@ public class DBServiceImpl implements DBService {
     public boolean bookIsExist(String id) {
         return bookService.isExist(id);
     }
+
+    @Override
+    public boolean authorDontHaveBookById(String id) {
+        return bookService.authorDontHaveBookById(id);
+    }
+
+    @Override
+    public boolean genreDontHaveBookById(String id) {
+        return bookService.genreDontHaveBookById(id);
+    }
 }

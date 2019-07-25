@@ -1,6 +1,7 @@
 package ru.zdoher.library.service;
 
 import org.springframework.stereotype.Service;
+import ru.zdoher.library.exception.NotFoundException;
 import ru.zdoher.library.repositories.AuthorRepository;
 import ru.zdoher.library.domain.Author;
 
@@ -21,7 +22,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author getById(String id) {
-        return authorRepository.findById(id).orElse(null);
+        return authorRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override

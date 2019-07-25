@@ -51,4 +51,14 @@ public class BookServiceImpl implements BookService {
         return bookRepository.existsById(id);
     }
 
+    @Override
+    public boolean authorDontHaveBookById(String id) {
+        return bookRepository.countBookByAuthorId(id) == 0;
+    }
+
+    @Override
+    public boolean genreDontHaveBookById(String id) {
+        return bookRepository.countBookByGenreId(id) == 0;
+    }
+
 }

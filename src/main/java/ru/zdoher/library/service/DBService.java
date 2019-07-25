@@ -46,5 +46,8 @@ public interface DBService {
 
     boolean bookIsExist(String id);
 
+    boolean authorDontHaveBookById(String id);
+
+    boolean genreDontHaveBookById(String id);
 
 }

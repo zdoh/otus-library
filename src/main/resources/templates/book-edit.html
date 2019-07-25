@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Book</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        select {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<a href="/book-list" th:href="@{/book-list}">вернуться</a>
+<h1>Book Info:</h1>
+
+<form id="edit-form" th:action="@{/book-edit(id=${book.id})}" th:object="${book}" th:method="post" action="book-edit">
+
+    <div class="row">
+        <label for="name-input">Name:</label>
+        <input id="name-input" name="name" type="text" th:value="*{name}" value="John Doe"/>
+    </div>
+
+    <div class="row">
+        <td>Author:</td>
+        <select th:field="*{author.id}">
+            <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}">---</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <td>Genre:</td>
+        <select th:field="*{genre.id}">
+            <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}">---</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+
+    <h2>Комментарии:</h2>
+
+    <form id="new-comment-form" th:action="@{/comment-new}" th:method="post" action="comment-new">
+        <div class="row">
+            <input type="hidden" name="book_id" th:value="${book.id}">
+            <label for="new-comment-input">Новый комментарий:</label>
+            <input id="new-comment-input" name="new_comment" type="text" value="new_comment"/>
+            <button type="submit">Добавить</button>
+        </div>
+    </form>
+<form>
+    <table>
+        <thead>
+        <tr>
+            <th>Комментарий</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="comments" th:each="comment : *{book.comments}" >
+            <td th:text="${comment.comment}">Акарубма</td>
+            <td>
+                <!--<a href="book-edit.html" th:href="@{/comment-delete(book_id=${book.id}, comment_id=${comment.id})}">Delete</a>-->
+                <form th:action="@{/comment-delete}" method="post" action="/comment-delete">
+                    <input type="hidden" th:value="${book.id}" name="book_id"/>
+                    <input type="hidden" th:value="${comment.id}" name="comment_id"/>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</form>
+</body>
+</html>

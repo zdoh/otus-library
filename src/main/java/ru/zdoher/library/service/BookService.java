@@ -16,4 +16,8 @@ public interface BookService {
     void update(Book book);
 
     boolean isExist(String id);
+
+    boolean authorDontHaveBookById(String id);
+
+    boolean genreDontHaveBookById(String id);
 }
