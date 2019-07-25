@@ -45,6 +45,7 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.save(author);
     }
 
+
     @Override
     public boolean isExist(String id) {
         boolean a = authorRepository.existsById(id);

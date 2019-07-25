@@ -11,7 +11,7 @@ public class ApplicationConfig {
 
     private static final String CHANGELOGS_PACKAGE = "ru.zdoher.library.changelog";
 
-    @Bean
+    //@Bean
     public Mongock mongock(MongoProps mongoProps, MongoClient mongoClient) {
         return new SpringMongockBuilder(mongoClient, mongoProps.getDatabase(), CHANGELOGS_PACKAGE)
                 .setLockQuickConfig()
